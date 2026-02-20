@@ -1,0 +1,98 @@
+---
+// Team.astro
+
+const partners = [
+  {
+    name: 'University of Virginia',
+    short: 'UVA',
+    logo: '/assets/partners/uva-logo.png',
+    href: 'https://www.virginia.edu/',
+  },
+  {
+    name: 'University of Calgary',
+    short: 'University of Calgary',
+    logo: '/assets/partners/ucalgary-logo.png',
+    href: 'https://www.ucalgary.ca/',
+  },
+  {
+    name: 'The City University of New York',
+    short: 'CUNY',
+    logo: '/assets/partners/cuny-logo.png',
+    href: 'https://www.cuny.edu/',
+  },
+];
+---
+
+<section id="partners" class="partners" aria-labelledby="partners-heading">
+  <div class="partners__inner section-inner">
+    <h2 id="partners-heading" class="sr-only">Partners</h2>
+    <ul class="partners__list" role="list">
+      {partners.map((partner) => (
+        <li>
+          <a href={partner.href} target="_blank" rel="noreferrer noopener" aria-label={`Visit ${partner.name}`}>
+            <img src={partner.logo} alt={partner.name} loading="lazy" />
+            {/* <span class="partners__short">{partner.short}</span> */}
+            <span class="sr-only">{partner.name}</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .partners {
+    background: var(--color-surface-alt);
+    padding-block: 1.25rem;
+  }
+
+  .partners__list {
+    list-style: none;
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    align-items: center;
+  }
+
+  .partners__list a {
+    display: grid;
+    place-items: center;
+    min-height: 5.625rem;
+    color: #223365;
+    text-decoration: none;
+    border: 0.0625rem solid transparent;
+    font-weight: 700;
+    padding: 0.75rem;
+    gap: 0.35rem;
+  }
+
+  .partners__list img {
+    width: 10rem;
+    height: 10rem;
+    object-fit: contain;
+    object-position: center;
+  }
+
+  .partners__list a:hover,
+  .partners__list a:focus-visible {
+    border-color: #666;
+    outline: none;
+  }
+
+  .partners__short {
+    font-size: 0.8rem;
+    text-align: center;
+    color: #2d3c6d;
+  }
+
+  @media (max-width: 47.5em) {
+    .partners__list {
+      grid-template-columns: 1fr;
+    }
+
+    .partners__list img {
+      width: 8rem;
+      height: 8rem;
+    }
+  }
+</style>

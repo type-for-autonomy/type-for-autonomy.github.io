@@ -1,0 +1,94 @@
+---
+import { getCollection, render } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+
+  return posts.map((post) => ({
+    params: { slug: post.id.replace(/\.md$/, '') },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+const publishedDate = post.data.date ?? post.data.pubDate ?? new Date(0);
+---
+
+<Layout title={`${post.data.title} — TYPE Blog`} description={post.data.excerpt ?? post.data.description ?? 'Blog post'}>
+  <main id="main-content" class="blog-post section-inner" aria-labelledby="post-title">
+    <p class="blog-post__back"><a href="/blog/">← Back to all posts</a></p>
+
+    <article>
+      <header class="blog-post__header">
+        <p class="blog-post__meta">
+          <span>{post.data.tag ?? 'Blog'}</span>
+          <span aria-hidden="true">•</span>
+          <time datetime={publishedDate.toISOString().slice(0, 10)}>
+            {publishedDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+          </time>
+          <span aria-hidden="true">•</span>
+          <span>By {post.data.author}</span>
+        </p>
+        <h1 id="post-title">{post.data.title}</h1>
+      </header>
+
+      <div class="blog-post__content">
+        <Content />
+      </div>
+    </article>
+  </main>
+</Layout>
+
+<style>
+  .blog-post {
+    padding-block: var(--space-xl);
+    max-width: 47.5rem;
+  }
+
+  .blog-post__back {
+    margin-bottom: 1rem;
+  }
+
+  .blog-post__back a {
+    color: var(--color-primary);
+    text-decoration: none;
+  }
+
+  .blog-post__back a:hover,
+  .blog-post__back a:focus-visible {
+    text-decoration: underline;
+  }
+
+  .blog-post__header {
+    margin-bottom: 1.5rem;
+  }
+
+  .blog-post__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    color: var(--color-text-muted);
+    margin-bottom: 0.5rem;
+  }
+
+  .blog-post__header h1 {
+    font-size: clamp(2rem, 5vw, 2.8rem);
+    line-height: 1.2;
+  }
+
+  .blog-post__content :global(h2) {
+    margin-top: 1.75rem;
+    margin-bottom: 0.75rem;
+    font-size: 1.4rem;
+  }
+
+  .blog-post__content :global(p),
+  .blog-post__content :global(ul),
+  .blog-post__content :global(ol) {
+    margin-bottom: 0.95rem;
+    line-height: 1.7;
+    color: var(--color-text);
+  }
+</style>

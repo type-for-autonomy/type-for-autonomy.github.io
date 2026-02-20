@@ -1,0 +1,129 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+
+const posts = (await getCollection('blog'))
+  .map((entry) => {
+    const publishedDate = entry.data.date ?? entry.data.pubDate ?? new Date(0);
+    const slug = entry.id.replace(/\.md$/, '');
+
+    return {
+      slug,
+      title: entry.data.title,
+      author: entry.data.author,
+      tag: entry.data.tag ?? 'Blog',
+      excerpt: entry.data.excerpt ?? entry.data.description ?? '',
+      date: publishedDate,
+    };
+  })
+  .sort((a, b) => b.date.getTime() - a.date.getTime());
+---
+
+<Layout title="Blog — TYPE" description="Project updates, research notes, and community voices from TYPE.">
+  <main id="main-content" class="blog-page section-inner" aria-labelledby="blog-page-heading">
+    <p class="blog-page__back"><a href="/">← Back to main page</a></p>
+
+    <header class="blog-page__header">
+      <h1 id="blog-page-heading">Project Blog</h1>
+      <p>Research insights, development milestones, and community perspectives from TYPE.</p>
+    </header>
+
+    <ul class="blog-page__list" role="list">
+      {posts.map((post) => (
+        <li>
+          <article class="blog-page__card" aria-labelledby={`post-${post.slug}`}>
+            <p class="blog-page__meta">
+              <span>{post.tag}</span>
+              <span aria-hidden="true">•</span>
+              <time datetime={post.date.toISOString().slice(0, 10)}>
+                {post.date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+              </time>
+            </p>
+            <h2 id={`post-${post.slug}`}>
+              <a href={`/blog/${post.slug}/`}>{post.title}</a>
+            </h2>
+            <p>{post.excerpt}</p>
+            <p class="blog-page__author">By {post.author}</p>
+          </article>
+        </li>
+      ))}
+    </ul>
+  </main>
+</Layout>
+
+<style>
+  .blog-page {
+    padding-block: var(--space-xl);
+  }
+
+  .blog-page__back {
+    margin-bottom: 1rem;
+  }
+
+  .blog-page__back a {
+    color: var(--color-primary);
+    text-decoration: none;
+  }
+
+  .blog-page__back a:hover,
+  .blog-page__back a:focus-visible {
+    text-decoration: underline;
+  }
+
+  .blog-page__header {
+    max-width: 43.75rem;
+    margin-bottom: var(--space-lg);
+  }
+
+  .blog-page__header h1 {
+    font-size: clamp(2rem, 5vw, 2.8rem);
+    margin-bottom: 0.75rem;
+  }
+
+  .blog-page__header p {
+    color: var(--color-text-muted);
+  }
+
+  .blog-page__list {
+    list-style: none;
+    display: grid;
+    gap: 1rem;
+  }
+
+  .blog-page__card {
+    border: 0.0625rem solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: 1.25rem;
+    background: var(--color-bg);
+  }
+
+  .blog-page__meta {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    color: var(--color-text-muted);
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .blog-page__card h2 {
+    margin-bottom: 0.5rem;
+    font-size: 1.2rem;
+  }
+
+  .blog-page__card h2 a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .blog-page__card h2 a:hover,
+  .blog-page__card h2 a:focus-visible {
+    text-decoration: underline;
+  }
+
+  .blog-page__author {
+    margin-top: 0.75rem;
+    color: var(--color-text-muted);
+    font-size: 0.95rem;
+  }
+</style>

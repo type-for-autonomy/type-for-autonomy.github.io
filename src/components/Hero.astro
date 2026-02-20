@@ -1,0 +1,70 @@
+---
+// Hero.astro
+---
+<section class="hero" aria-labelledby="hero-heading">
+  <div class="hero__inner section-inner">
+    <div class="hero__content">
+      <h1 class="hero__heading" id="hero-heading">TYPE</h1>
+      <p class="hero__sub">Designed for growth. Driven by you.</p>
+      <a href="#mission" class="btn">Learn More</a>
+    </div>
+    <div class="hero__media" aria-hidden="true">
+      <img src="/assets/hero-illustration.png" alt="" loading="eager" />
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    padding-block: var(--space-xl);
+    background: var(--color-bg);
+    border-bottom: 0.0625rem solid var(--color-border);
+  }
+
+  .hero__inner {
+    max-width: 70rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: 2rem;
+  }
+
+  .hero__content {
+    max-width: 43.75rem;
+  }
+
+  .hero__heading {
+    font-size: clamp(3rem, 8vw, 5rem);
+    font-weight: 700;
+    margin-bottom: 1rem;
+  }
+
+  .hero__sub {
+    font-size: clamp(1.4rem, 3.5vw, 2rem);
+    margin-bottom: 2rem;
+    color: var(--color-primary);
+    line-height: 1.1;
+    max-width: 22.5rem;
+  }
+
+  .hero__media {
+    display: flex;
+    justify-content: center;
+  }
+
+  .hero__media img {
+    width: 100%;
+    max-width: 28.75rem;
+    object-fit: contain;
+  }
+
+  @media (max-width: 53.75em) {
+    .hero__inner {
+      grid-template-columns: 1fr;
+    }
+
+    .hero__media {
+      order: -1;
+    }
+  }
+</style>

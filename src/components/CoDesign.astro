@@ -1,0 +1,210 @@
+---
+// CoDesign.astro
+---
+<section id="values" class="values" aria-labelledby="values-heading">
+  <div class="section-inner">
+    <h2 id="values-heading" class="sr-only">Values</h2>
+    <ul class="values__grid" role="list">
+      <li>
+        <article class="value-card">
+          <img src="/assets/values-autonomy.png" alt="" aria-hidden="true" loading="lazy" />
+          <h3>Autonomy</h3>
+          <p>Supporting independent communication.</p>
+          <a href="#autonomy-overlay">Autonomy details</a>
+        </article>
+      </li>
+      <li>
+        <article class="value-card">
+          <img src="/assets/values-accessibility.png" alt="" aria-hidden="true" loading="lazy" />
+          <h3>Accessibility</h3>
+          <p>Designed with sensory, motor, and attentional needs in mind.</p>
+          <a href="#accessibility-overlay">Accessibility commitments</a>
+        </article>
+      </li>
+      <li>
+        <article class="value-card">
+          <img src="/assets/values-codesign.png" alt="" aria-hidden="true" loading="lazy" />
+          <h3>Co-Design</h3>
+          <p>Built together with nonspeaking autistic collaborators.</p>
+          <a href="#codesign-overlay">How co-design works</a>
+        </article>
+      </li>
+    </ul>
+
+    <div class="values__cta">
+      <a href="#process" class="btn">Explore</a>
+    </div>
+  </div>
+</section>
+
+<section id="process" class="process" aria-labelledby="process-heading">
+  <div class="process__inner section-inner">
+    <div class="process__left">
+      <h2 id="process-heading">Process with a purpose</h2>
+      <img src="/assets/process-illustration.png" alt="" aria-hidden="true" loading="lazy" />
+    </div>
+    <div class="process__right">
+      <article>
+        <h3>Co-design, not top-down</h3>
+        <p>
+          TYPE is developed with nonspeaking autistic people, not for them. Their lived experiences
+          guide priorities, ensure relevance, and shape outcomes.
+        </p>
+      </article>
+      <article>
+        <h3>Iterative &amp; adaptive</h3>
+        <p>
+          We test, listen, and revise continuously. This process allows TYPE to support diverse
+          communication needs across contexts.
+        </p>
+      </article>
+      <article>
+        <h3>Transparency &amp; trust</h3>
+        <p>
+          We share progress and challenges openly. By working together and sharing decisions, we build
+          trust within our team and with the wider community.
+        </p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<div id="autonomy-overlay" class="overlay" aria-label="Autonomy in practice">
+  <div class="overlay__card">
+    <h3 class="overlay__title">Autonomy in practice</h3>
+    <div class="overlay__body">
+      <p>Examples include adjustable predictions, user-controlled prompts, and transparent feedback.</p>
+    </div>
+    <div class="overlay__actions">
+      <a href="#journey" class="btn">Get Updates</a>
+    </div>
+    <a href="#values" class="overlay__close">Close</a>
+  </div>
+</div>
+
+<div id="accessibility-overlay" class="overlay" aria-label="Accessibility commitments">
+  <div class="overlay__card">
+    <h3 class="overlay__title">Accessibility commitments</h3>
+    <div class="overlay__body">
+      <p>
+        TYPE includes sensory-aware contrast, flexible interaction pacing, and motor-supportive layout
+        choices co-reviewed with collaborators.
+      </p>
+    </div>
+    <div class="overlay__actions">
+      <a href="#journey" class="btn">Get Updates</a>
+    </div>
+    <a href="#values" class="overlay__close">Close</a>
+  </div>
+</div>
+
+<div id="codesign-overlay" class="overlay" aria-label="How co-design works">
+  <div class="overlay__card">
+    <h3 class="overlay__title">How co-design works</h3>
+    <div class="overlay__body">
+      <p>
+        Nonspeaking autistic collaborators, supporters, and researchers shape goals, review prototypes,
+        and inform decisions through each project cycle.
+      </p>
+    </div>
+    <div class="overlay__actions">
+      <a href="#journey" class="btn">Get Updates</a>
+    </div>
+    <a href="#values" class="overlay__close">Close</a>
+  </div>
+</div>
+
+<style>
+  .values {
+    background: var(--color-bg);
+    padding-block: var(--space-lg);
+  }
+
+  .values__grid {
+    list-style: none;
+    display: grid;
+    gap: 1.25rem;
+    grid-template-columns: repeat(auto-fit, minmax(13.75rem, 1fr));
+  }
+
+  .value-card {
+    text-align: center;
+    border: 0.0625rem solid var(--color-border);
+    padding: 1.2rem;
+    background: var(--color-surface);
+  }
+
+  .value-card img {
+    width: 5.125rem;
+    height: 5.125rem;
+    object-fit: contain;
+    margin-bottom: 0.6rem;
+  }
+
+  .value-card h3 {
+    font-size: 2rem;
+    margin-bottom: 0.35rem;
+  }
+
+  .value-card p {
+    color: var(--color-primary);
+    margin-bottom: 0.6rem;
+    line-height: 1.45;
+  }
+
+  .value-card a {
+    color: var(--color-text-muted);
+    font-size: 0.9rem;
+  }
+
+  .values__cta {
+    text-align: center;
+    margin-top: 1.5rem;
+  }
+
+  .process {
+    background: var(--color-surface-alt);
+    color: #111;
+    padding-block: var(--space-lg);
+  }
+
+  .process__inner {
+    display: grid;
+    gap: 1.5rem;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .process__left h2 {
+    font-size: clamp(2rem, 5.4vw, 3.6rem);
+    line-height: 1;
+    margin-bottom: 1rem;
+  }
+
+  .process__left img {
+    width: 100%;
+    max-width: 22.5rem;
+    object-fit: contain;
+  }
+
+  .process__right article {
+    padding-block: 0.8rem;
+    border-bottom: 0.0625rem solid #6d6d6d;
+  }
+
+  .process__right h3 {
+    font-size: 2rem;
+    line-height: 1.1;
+    margin-bottom: 0.35rem;
+  }
+
+  .process__right p {
+    color: #2b2b2b;
+    line-height: 1.6;
+  }
+
+  @media (max-width: 50em) {
+    .process__inner {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

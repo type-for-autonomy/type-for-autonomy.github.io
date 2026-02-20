@@ -1,0 +1,182 @@
+---
+// GetInvolved.astro
+---
+<section id="journey" class="journey" aria-labelledby="journey-heading">
+  <div class="journey__inner section-inner">
+    <h2 id="journey-heading">Our Journey</h2>
+    <p class="journey__sub">Where we are now, and where we are going</p>
+
+    <ul class="journey__steps" role="list">
+      <li>
+        <a href="#infohub-overlay" class="journey__step">
+          <img src="/assets/journey-infohub.png" alt="" aria-hidden="true" loading="lazy" />
+          <span>Info Hub</span>
+        </a>
+      </li>
+      <li>
+        <a href="#prototype-overlay" class="journey__step">
+          <img src="/assets/journey-prototype.png" alt="" aria-hidden="true" loading="lazy" />
+          <span>Prototype</span>
+        </a>
+      </li>
+      <li>
+        <a href="#evaluation-overlay" class="journey__step">
+          <img src="/assets/journey-evaluation.png" alt="" aria-hidden="true" loading="lazy" />
+          <span>Evaluation</span>
+        </a>
+      </li>
+    </ul>
+
+    <form id="updates-form" class="journey__form" action="#" method="post">
+      <label for="updates-email" class="sr-only">Email for updates</label>
+      <input id="updates-email" name="email" type="email" required placeholder="Email address" />
+      <button type="submit" class="btn">Get Updates</button>
+    </form>
+
+    <p id="updates-success" class="journey__success" role="status" aria-live="polite" hidden>
+      You’re in — we’ll send project updates as new milestones are ready.
+    </p>
+  </div>
+</section>
+
+<div id="infohub-overlay" class="overlay" aria-label="Info hub">
+  <div class="overlay__card">
+    <h3 class="overlay__title">Info Hub</h3>
+    <div class="overlay__body">
+      <p>Resources, FAQs, and participation guidance are being organized. Coming soon.</p>
+    </div>
+    <div class="overlay__actions">
+      <a href="#journey" class="btn">Get Updates</a>
+    </div>
+    <a href="#journey" class="overlay__close">Close</a>
+  </div>
+</div>
+
+<div id="prototype-overlay" class="overlay" aria-label="Prototype status">
+  <div class="overlay__card">
+    <h3 class="overlay__title">Prototype status</h3>
+    <div class="overlay__body">
+      <p>
+        We are validating early adaptive typing interactions and planning the next build cycle. More
+        detailed timeline notes are coming soon.
+      </p>
+    </div>
+    <div class="overlay__actions">
+      <a href="#journey" class="btn">Get Updates</a>
+    </div>
+    <a href="#journey" class="overlay__close">Close</a>
+  </div>
+</div>
+
+<div id="evaluation-overlay" class="overlay" aria-label="Evaluation plans">
+  <div class="overlay__card">
+    <h3 class="overlay__title">Evaluation plans</h3>
+    <div class="overlay__body">
+      <p>
+        Evaluation includes usability, feasibility, and co-designer feedback to improve real-world
+        communication outcomes.
+      </p>
+    </div>
+    <div class="overlay__actions">
+      <a href="#journey" class="btn">Get Updates</a>
+    </div>
+    <a href="#journey" class="overlay__close">Close</a>
+  </div>
+</div>
+
+<script>
+  const updatesForm = document.getElementById('updates-form');
+  const updatesSuccess = document.getElementById('updates-success');
+
+  updatesForm?.addEventListener('submit', (event) => {
+    event.preventDefault();
+    updatesForm.hidden = true;
+    if (updatesSuccess) {
+      updatesSuccess.hidden = false;
+    }
+  });
+</script>
+
+<style>
+  .journey {
+    background: var(--color-bg);
+    padding-block: var(--space-lg);
+    text-align: center;
+  }
+
+  .journey h2 {
+    font-size: clamp(2.2rem, 6vw, 4rem);
+    line-height: 1;
+  }
+
+  .journey__sub {
+    color: var(--color-primary);
+    font-size: 1.6rem;
+    margin-bottom: 2rem;
+  }
+
+  .journey__steps {
+    list-style: none;
+    display: grid;
+    gap: 0.75rem;
+    grid-template-columns: repeat(auto-fit, minmax(8.75rem, 1fr));
+    margin-bottom: 1.5rem;
+  }
+
+  .journey__step {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    text-decoration: none;
+    color: var(--color-text);
+    font-size: 1.9rem;
+    border: 0.0625rem solid var(--color-border);
+    padding: 1rem;
+    background: var(--color-surface);
+  }
+
+  .journey__step img {
+    width: 5.9375rem;
+    height: 5.9375rem;
+    object-fit: contain;
+  }
+
+  .journey__form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.65rem;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .journey__form input {
+    min-width: 16.25rem;
+    padding: 0.72rem 0.8rem;
+    border: 0.0625rem solid var(--color-border);
+    background: var(--color-surface);
+    color: var(--color-text);
+  }
+
+  @media (max-width: 37.5em) {
+    .journey__steps {
+      grid-template-columns: 1fr;
+    }
+
+    .journey__step {
+      font-size: 1.6rem;
+    }
+
+    .journey__form input {
+      width: 100%;
+      min-width: 0;
+    }
+  }
+
+  .journey__success {
+    margin-top: 1rem;
+    color: var(--color-primary);
+    font-weight: 700;
+  }
+</style>

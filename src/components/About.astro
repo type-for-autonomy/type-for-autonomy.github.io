@@ -1,0 +1,103 @@
+---
+// About.astro
+---
+<section id="mission" class="mission" aria-labelledby="mission-heading">
+  <div class="mission__inner section-inner">
+    <div class="mission__panel">
+      <div class="mission__top">
+        <h2 id="mission-heading">Your voice. Your way.</h2>
+        <img src="/assets/mission-infinity.png" alt="" aria-hidden="true" loading="lazy" />
+      </div>
+      <p>
+        We are building TYPE to create innovative, adaptive typing support for nonspeaking autistic
+        people to grow communication skills and be heard.
+      </p>
+      <a href="#mission-overlay" class="btn">Our Mission</a>
+    </div>
+  </div>
+</section>
+
+<div id="mission-overlay" class="overlay" aria-label="Mission and what TYPE is">
+  <div class="overlay__card">
+    <h3 class="overlay__title">Mission &amp; What TYPE Is</h3>
+    <div class="overlay__body">
+      <p>
+        TYPE is a co-designed adaptive typing project for nonspeaking autistic people and their
+        supporters. It provides communication-focused tools, participatory research, and practical
+        pathways to shape future prototypes.
+      </p>
+      <p>
+        TYPE is not therapy. It is a communication and autonomy support project designed with users,
+        not for users.
+      </p>
+    </div>
+    <div class="overlay__actions">
+      <a href="#journey" class="btn">Get Updates</a>
+      <a href="#footer-involved" class="btn">Get Involved</a>
+    </div>
+    <a href="#mission" class="overlay__close" aria-label="Close mission overlay">Close</a>
+  </div>
+</div>
+
+<style>
+  .mission {
+    background: var(--color-surface-alt);
+    color: #0d0d0d;
+    padding-block: var(--space-lg);
+  }
+
+  .mission__panel {
+    border: 0.0625rem solid #777;
+    border-radius: 2rem;
+    padding: clamp(1.5rem, 3vw, 2.5rem);
+    display: grid;
+    gap: 1rem;
+    max-width: 61.25rem;
+  }
+
+  .mission__top {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 1rem;
+    align-items: center;
+  }
+
+  .mission__top img {
+    width: min(16.875rem, 30vw);
+    object-fit: contain;
+  }
+
+  .mission__panel h2 {
+    font-size: clamp(2.1rem, 6vw, 3.4rem);
+    line-height: 1;
+    max-width: 26.25rem;
+  }
+
+  .mission__panel p {
+    color: #222;
+    font-size: clamp(1rem, 2.4vw, 1.25rem);
+    max-width: 43.75rem;
+  }
+
+  .mission__panel .btn {
+    width: fit-content;
+    color: #0c0c0c;
+    border-color: #0c0c0c;
+  }
+
+  .mission__panel .btn:hover,
+  .mission__panel .btn:focus-visible {
+    background: #0c0c0c;
+    color: #fff;
+  }
+
+  @media (max-width: 47.5em) {
+    .mission__top {
+      grid-template-columns: 1fr;
+    }
+
+    .mission__top img {
+      width: min(13.75rem, 52vw);
+    }
+  }
+</style>
