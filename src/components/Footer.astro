@@ -2,188 +2,271 @@
 // Footer.astro
 ---
 <footer class="footer" role="contentinfo">
-  <div class="footer__inner section-inner">
+  <div class="footer__inner section-inner" id="footer-involved">
     <div class="footer__left">
-      <a href="/" class="footer__logo" aria-label="TYPE home">
-        <img src="/assets/type-mark.png" alt="" aria-hidden="true" />
-        <span>TYPE</span>
-      </a>
+     <div class="footer__logo">
+        <img src="/assets/TYPE/Part 1/Logo Image.png" alt="" aria-hidden="true" />
+      </div>
+      <h1>TYPE</h1>
       <h2>Innovate with us</h2>
       <p>Help us shape the future of communication.</p>
-      <div class="footer__actions" id="footer-involved">
-        <a href="#involved-overlay" class="btn">Get Involved</a>
-        <a href="mailto:research@type-for-autonomy.org" class="btn">Contact</a>
-      </div>
+      <a href="mailto:research@type-for-autonomy.org" class="btn">Get Involved</a>
     </div>
 
     <div class="footer__right">
       <img
         class="footer__illustration"
-        src="/assets/footer-illustration.png"
+        src="/assets/TYPE/Part 6/illustration.png"
         alt=""
         aria-hidden="true"
         loading="lazy"
       />
       <p class="footer__social-title">Get Social</p>
       <div class="footer__socials" role="list" aria-label="Social links">
-        <a href="#socials-overlay" role="listitem" aria-label="Facebook placeholder">f</a>
-        <a href="#socials-overlay" role="listitem" aria-label="Twitter placeholder">t</a>
-        <a href="#socials-overlay" role="listitem" aria-label="Instagram placeholder">ig</a>
+        <a href="#" role="listitem" aria-label="Facebook">
+          <img src="/assets/TYPE/Part 6/facebook.png" alt="facebook" />
+        </a>
+        <a href="#" role="listitem" aria-label="Twitter">
+          <img src="/assets/TYPE/Part 6/twitter.png" alt="twitter" />
+        </a>
+        <a href="#" role="listitem" aria-label="Instagram">
+          <img src="/assets/TYPE/Part 6/instagram.png" alt="instagram" />
+        </a>
       </div>
     </div>
   </div>
 </footer>
 
-<div id="involved-overlay" class="overlay" aria-label="Get involved form">
-  <div class="overlay__card">
-    <h3 class="overlay__title">Get Involved</h3>
-    <form id="involved-form" class="involved-form" action="#" method="post">
-      <label for="involved-name">Name</label>
-      <input id="involved-name" name="name" type="text" required />
-
-      <label for="involved-email">Email</label>
-      <input id="involved-email" name="email" type="email" required />
-
-      <label for="involved-path">How do you want to connect?</label>
-      <select id="involved-path" name="path" required>
-        <option value="">Select one</option>
-        <option value="collaborate">I’m a nonspeaking autistic person / supporter and want to collaborate</option>
-        <option value="professional">I’m a researcher/clinician/educator and want to connect</option>
-        <option value="support">I want to support TYPE (general interest / partnership)</option>
-      </select>
-
-      <button type="submit" class="btn">Submit</button>
-    </form>
-
-    <div id="involved-success" hidden>
-      <p class="overlay__body">Thanks — your request was received. Want project updates too?</p>
-      <div class="overlay__actions">
-        <a href="#journey" class="btn">Get Updates</a>
-      </div>
-    </div>
-
-    <a href="#footer-involved" class="overlay__close">Close</a>
-  </div>
-</div>
-
-<div id="socials-overlay" class="overlay" aria-label="Social links status">
-  <div class="overlay__card">
-    <h3 class="overlay__title">Social channels are coming soon</h3>
-    <p class="overlay__body">We’re setting up our socials. Get updates in the meantime.</p>
-    <div class="overlay__actions">
-      <a href="#journey" class="btn">Get Updates</a>
-    </div>
-    <a href="#footer-involved" class="overlay__close">Close</a>
-  </div>
-</div>
-
-<script>
-  const involvedForm = document.getElementById('involved-form');
-  const involvedSuccess = document.getElementById('involved-success');
-
-  involvedForm?.addEventListener('submit', (event) => {
-    event.preventDefault();
-    involvedForm.hidden = true;
-    if (involvedSuccess) {
-      involvedSuccess.hidden = false;
-    }
-  });
-</script>
-
 <style>
   .footer {
+    min-height: 100svh;
+    display: flex;
+    align-items: center;
     background: var(--color-bg);
-    border-top: 0.0625rem solid var(--color-border);
-    padding-block: var(--space-lg);
+    padding-block: clamp(2.6rem, 6vw, 4.4rem);
   }
 
   .footer__inner {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+  }
+
+  .footer__left {
     display: grid;
-    grid-template-columns: 1.4fr 1fr;
-    gap: 2rem;
-    align-items: start;
+    grid-template-areas: "logo" "heading" "sub" "description" "cta";
+    grid-template-columns: 1fr;
+    grid-auto-rows: auto;
+    gap: clamp(1rem, 2vh, 1.5rem);
+    align-items: center;
+    font-weight: 600;
   }
 
   .footer__logo {
+    grid-area: "logo";
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
     color: var(--color-text);
     text-decoration: none;
-    font-size: 2rem;
+    font-size: clamp(2rem, 4vw, 3rem);
     font-weight: 700;
-    margin-bottom: 1rem;
+    width: fit-content;
   }
 
   .footer__logo img {
-    width: 1.75rem;
-    height: 1.75rem;
+     grid-area: logo;
+    width: min(5rem, 10vw);
+    height: auto;
     object-fit: contain;
+  }
+ 
+  .footer h1 {
+    all: unset;
+    grid-area: "heading";
+    font-family: var(--font-body);
+    font-size: clamp(8rem, 16vw, 12rem);
+    letter-spacing: -0.7rem;
+    line-height: 0.9;
+    font-weight: 700;
   }
 
   .footer h2 {
-    font-size: clamp(2rem, 5vw, 3rem);
-    margin-bottom: 0.6rem;
+    grid-area: "sub";
+    font-family: var(--font-body);
+    font-size: clamp(2.5rem, 6vw, 4rem);
+    margin: 0;
+    line-height: 0.8;
+    letter-spacing: -0.02em;
+    font-weight: 600;
   }
 
   .footer p {
+    grid-area: "description";
     color: var(--color-primary);
-    max-width: 21.25rem;
+    max-width: 100%;
+    margin: 0;
+    font-size: clamp(1.2rem, 2.3vw, 1.8rem);
+    line-height: 1.4;
+    font-family: var(--font-body);
+    font-weight: 500;
   }
 
-  .footer__actions {
-    margin-top: 1.2rem;
+  .footer__left .btn {
+    grid-area: "cta";
+    width: fit-content;
+  }
+
+  .footer__right {
     display: flex;
-    gap: 0.75rem;
-    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(1.5rem, 3vh, 2.5rem);
+    overflow: visible;
+  }
+
+  .footer__illustration {
+    width: 30vw;
+    height: auto;
+    object-fit: contain;
   }
 
   .footer__social-title {
     text-transform: uppercase;
-    letter-spacing: 0.06em;
+    letter-spacing: 0.065em;
     color: var(--color-primary);
-    margin-bottom: 0.7rem;
+    margin: 0;
     font-weight: 700;
-  }
-
-  .footer__illustration {
-    width: 100%;
-    max-width: 22.5rem;
-    object-fit: contain;
-    margin-bottom: 0.85rem;
+    font-size: clamp(0.85rem, 1.5vw, 1rem);
   }
 
   .footer__socials {
     display: flex;
-    gap: 0.5rem;
+    gap: clamp(0.75rem, 2vw, 1.5rem);
   }
 
   .footer__socials a {
-    width: 2.2rem;
-    height: 2.2rem;
+    width: clamp(1.4rem, 3vw, 1.8rem);
+    height: clamp(1.4rem, 3vw, 1.8rem);
     display: grid;
     place-items: center;
     text-decoration: none;
-    border: 0.0625rem solid var(--color-border);
-    color: var(--color-text);
   }
 
-  .involved-form {
-    display: grid;
-    gap: 0.45rem;
+  .footer__socials img {
+    width: 5rem;
+    height: 100%;
+    object-fit: contain;
   }
 
-  .involved-form input,
-  .involved-form select {
-    padding: 0.6rem;
-    background: var(--color-surface);
-    color: var(--color-text);
-    border: 0.0625rem solid var(--color-border);
-  }
-
-  @media (max-width: 47.5em) {
+  /* Tablet: 48rem (768px) */
+  @media (max-width: 48rem) {
     .footer__inner {
-      grid-template-columns: 1fr;
+      display: flex;
+      flex-direction: column-reverse;
+      gap: clamp(2rem, 4vh, 2.5rem);
+    }
+
+    .footer__left {
+      display: flex
+      flex-direction: column-reverse;
+      align-items: center;
+    }
+
+    .footer__left h1 {
+      font-size: clamp(3rem, 10vw, 5rem);
+      letter-spacing: -0.3rem;
+    }
+
+    .footer__left h2 {
+      font-size: clamp(2rem, 6vw, 3.5rem);
+    }
+
+    .footer__left p {
+      font-size: clamp(1rem, 2.5vw, 1.5rem);
+    }
+
+    .footer__right {
+      gap: clamp(1rem, 2vh, 1.5rem);
+    }
+
+    .footer__illustration {
+      width: clamp(15rem, 70vw, 30rem);
+    }
+
+    .footer__social-title {
+        display: none;
+    }
+
+    .footer__socials {
+      display: none;
+    }
+  }
+
+  /* Mobile: 28rem (448px) */
+  @media (max-width: 28rem) {
+    .footer {
+      min-height: auto;
+      padding-block: 1.5rem;
+    }
+
+    .footer__inner {
+       display: flex;
+      flex-direction: column-reverse;
+      gap: clamp(2rem, 4vh, 2.5rem);
+    }
+
+    .footer__left {
+    display: flex;
+    flex-direction: column;
+      gap: 0.6rem;
+      align-items: center;
+    }
+
+    .footer__left h1 {
+      font-size: clamp(2rem, 8vw, 3.5rem);
+      letter-spacing: -0.15rem;
+    }
+
+    .footer__left h2 {
+      font-size: clamp(1.5rem, 5vw, 2.5rem);
+    }
+
+    .footer__left p {
+      font-size: clamp(0.9rem, 2vw, 1.2rem);
+    }
+
+    /* .footer__left .btn {
+      font-size: 0.75rem;
+      padding: 0.45rem 1.2rem;
+      min-height: 2.4rem;
+      margin-top: 1rem;
+    } */
+
+    .footer__right {
+      gap: 1rem;
+    }
+
+    .footer__illustration {
+      width: clamp(12rem, 85vw, 20rem);
+    }
+
+    .footer__social-title {
+        display: none;
+    }
+
+    .footer__socials {
+        display: none;
+    }
+
+    .footer__socials a {
+      width: clamp(1rem, 2vw, 1.3rem);
+      height: clamp(1rem, 2vw, 1.3rem);
+    }
+
+    .footer__socials img {
+      width: 100%;
     }
   }
 </style>

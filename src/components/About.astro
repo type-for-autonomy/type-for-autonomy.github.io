@@ -3,101 +3,156 @@
 ---
 <section id="mission" class="mission" aria-labelledby="mission-heading">
   <div class="mission__inner section-inner">
-    <div class="mission__panel">
       <div class="mission__top">
-        <h2 id="mission-heading">Your voice. Your way.</h2>
-        <img src="/assets/mission-infinity.png" alt="" aria-hidden="true" loading="lazy" />
+        <h2 id="mission-heading">Your voice.<br />Your way.</h2>
+        <img src="/assets/TYPE/Part 2/infinity.png" alt="" aria-hidden="true" loading="lazy" />
       </div>
-      <p>
-        We are building TYPE to create innovative, adaptive typing support for nonspeaking autistic
-        people to grow communication skills and be heard.
+      <p class="mission__inner__description">
+        We are building TYPE to create innovative, adaptive training for nonspeaking autistic
+        people to grow their skills and be heard.
       </p>
-      <a href="#mission-overlay" class="btn">Our Mission</a>
-    </div>
+    <a href="#process" class="mission__inner__btn btn">Our Mission</a>
   </div>
 </section>
 
-<div id="mission-overlay" class="overlay" aria-label="Mission and what TYPE is">
-  <div class="overlay__card">
-    <h3 class="overlay__title">Mission &amp; What TYPE Is</h3>
-    <div class="overlay__body">
-      <p>
-        TYPE is a co-designed adaptive typing project for nonspeaking autistic people and their
-        supporters. It provides communication-focused tools, participatory research, and practical
-        pathways to shape future prototypes.
-      </p>
-      <p>
-        TYPE is not therapy. It is a communication and autonomy support project designed with users,
-        not for users.
-      </p>
-    </div>
-    <div class="overlay__actions">
-      <a href="#journey" class="btn">Get Updates</a>
-      <a href="#footer-involved" class="btn">Get Involved</a>
-    </div>
-    <a href="#mission" class="overlay__close" aria-label="Close mission overlay">Close</a>
-  </div>
-</div>
-
 <style>
   .mission {
+    min-height: 100svh;
+    display: flex;
+    align-items: center;
     background: var(--color-surface-alt);
     color: #0d0d0d;
-    padding-block: var(--space-lg);
+    padding-block: clamp(2.4rem, 5vw, 4.2rem);
   }
 
-  .mission__panel {
-    border: 0.0625rem solid #777;
-    border-radius: 2rem;
-    padding: clamp(1.5rem, 3vw, 2.5rem);
+  .mission__inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 0.25rem solid #888;
+    border-radius: 2.5rem;
+    padding: clamp(2rem, 4vw, 3rem);
     display: grid;
-    gap: 1rem;
-    max-width: 61.25rem;
+    gap: 1.5rem;
+    margin: 0 5rem;
+    
   }
 
   .mission__top {
-    display: grid;
-    grid-template-columns: 1fr auto;
-    gap: 1rem;
-    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    padding-top: 2rem;
   }
 
   .mission__top img {
-    width: min(16.875rem, 30vw);
-    object-fit: contain;
+    width: 40vw;
+    margin: -8rem -8rem -5rem 0;
   }
 
-  .mission__panel h2 {
-    font-size: clamp(2.1rem, 6vw, 3.4rem);
-    line-height: 1;
-    max-width: 26.25rem;
+  .mission__top h2 {
+    font-size: clamp(5rem, 10vw, 7rem);
+    font-weight: 500;
+    line-height: .9;
   }
 
-  .mission__panel p {
+  .mission__inner__description {
     color: #222;
-    font-size: clamp(1rem, 2.4vw, 1.25rem);
-    max-width: 43.75rem;
+    font-size: clamp(2rem, 2.3vw, 3rem);
+    line-height: 1.35;
+    max-width: 46rem;
+    margin-left: 65%;
   }
 
-  .mission__panel .btn {
+  .mission__inner__btn {
     width: fit-content;
-    color: #0c0c0c;
-    border-color: #0c0c0c;
+    color: #ffffff;
+    border-color: #000;
+    background: #000;
+    justify-self: center;
   }
 
   .mission__panel .btn:hover,
   .mission__panel .btn:focus-visible {
-    background: #0c0c0c;
+    background: #1d1d1d;
     color: #fff;
   }
 
-  @media (max-width: 47.5em) {
+  /* Tablet: 48rem (768px) */
+  @media (max-width: 48rem) {
+    .mission {
+      padding-block: clamp(2rem, 4vh, 3rem);
+    }
+
+    .mission__inner {
+      margin: 0 clamp(1rem, 3vw, 1.5rem);
+      padding: clamp(1.5rem, 3vw, 2.5rem);
+      border-radius: 2rem;
+    }
+
     .mission__top {
-      grid-template-columns: 1fr;
+      flex-direction: column;
+      align-items: center;
+      gap: clamp(1.5rem, 3vh, 2rem);
+    }
+
+    .mission__top h2 {
+      font-size: clamp(3rem, 8vw, 5rem);
+      text-align: center;
     }
 
     .mission__top img {
-      width: min(13.75rem, 52vw);
+      width: clamp(15rem, 40vw, 25rem);
+      margin: 0;
+    }
+
+    .mission__inner__description {
+      font-size: clamp(1.2rem, 3vw, 2rem);
+      margin-left: 0;
+      text-align: center;
+      max-width: 100%;
+    }
+
+    .mission__inner__btn {
+      margin-top: clamp(1rem, 2vh, 1.5rem);
     }
   }
+
+  /* Mobile: 28rem (448px) */
+  @media (max-width: 28rem) {
+    .mission {
+      padding-block: 1.5rem;
+    }
+
+    .mission__inner {
+      margin: 0 0.75rem;
+      padding: 1.25rem;
+      border-radius: 1rem;
+      gap: 1rem;
+    }
+
+    .mission__top {
+      gap: 1rem;
+    }
+
+    .mission__top h2 {
+      font-size: clamp(2.5rem, 10vw, 4rem);
+      letter-spacing: -0.01em;
+    }
+
+    .mission__top img {
+      width: clamp(20rem, 40vw, 25rem);
+    }
+
+    .mission__inner__description {
+      font-size: clamp(1.25rem, 2.5vw, 2rem);
+    }
+/* 
+    .mission__inner__btn {
+      font-size: 0.75rem;
+      padding: 0.45rem 1.2rem;
+      min-height: 2.4rem;
+      margin-top: 1rem;
+    } */
+  }
+
 </style>
