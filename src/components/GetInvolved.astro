@@ -1,51 +1,52 @@
 ---
 // GetInvolved.astro
 ---
-<section id="journey" class="journey" aria-labelledby="journey-heading">
+<section id="journey" class="journey  global-height" aria-labelledby="journey-heading">
   <div class="journey__inner section-inner">
-    <h2 id="journey-heading">Our Journey</h2>
-    <p class="journey__sub">Where we are now, and where we are going</p>
+    <div>
+      <h2 id="journey-heading">Our Journey</h2>
+      <p class="journey__sub">Where we are now, and where we are going</p>
+    </div>
     <img src="/assets/TYPE/Part 5/image page 5.png" alt="Journey from info hub to prototype to evaluation" loading="lazy" />
     <a href="#footer-involved" class="btn">Get Updates</a>
   </div>
 </section>
 
-<style>
-  .journey {
-    height: 100svh;
+<style>  
+.journey {
     display: flex;
     align-items: center;
     background: var(--color-bg);
- 
   }
 
   .journey__inner {
-    width: 100%;;
-       display: flex;
+    width: 100%;
+    display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: space-around;
-    padding: 1rem;
+    justify-content: center;
+    gap: clamp(2.5rem, 10vh, 4rem);
+    padding: 0 clamp(1.25rem, 4vw, 2.25rem);
   }
-
   .journey h2 {
-    font-size: clamp(3.5rem, 7vw, 5.8rem);
-    line-height: 0.92;
+    font-size: clamp(2.8rem, 6vw, 4.5rem);
+    line-height: 0.95;
     letter-spacing: -0.01em;
+    text-align: center;
   }
 
   .journey__sub {
     color: var(--color-primary);
-    font-size: clamp(1.35rem, 2.3vw, 2.2rem);
+    font-size: clamp(1.1rem, 1.8vw, 1.6rem);
     font-weight: 600;
     margin: 0;
+    text-align: center;
   }
 
   .journey img {
-    width: 60vw;
+    width: clamp(30rem, 70vw, 55rem);
     height: auto;
     object-fit: contain;
-    margin: 0 auto;
   }
 
   /* Tablet: 48rem (768px) */
