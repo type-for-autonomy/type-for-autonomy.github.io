@@ -233,13 +233,17 @@ for (let item in links) {
 
   /* Tablet: 48rem (768px) */
   @media (max-width: 48rem) {
+    
     .team-member {
       padding: clamp(1.5rem, 4vw, 2.5rem) 0;
+      
     }
 
     .team-member__header {
       grid-template-columns: 7rem 1fr;
       gap: 0.85rem;
+      justify-self: center;
+      text-align: center;
     }
 
     .team-member__section {
@@ -257,6 +261,7 @@ for (let item in links) {
 
   /* Mobile: 28rem (448px) */
   @media (max-width: 28rem) {
+    
     .team-member {
       padding: 1.5rem 0;
     }
@@ -271,7 +276,7 @@ for (let item in links) {
 
     .team-member__header {
       grid-template-columns: 1fr;
-      justify-items: start;
+      justify-items: center;
     }
 
     .team-member__image {
@@ -290,6 +295,10 @@ for (let item in links) {
     .team-member__intro {
       font-size: 1rem;
     }
+
+  .team-member__connect{
+    justify-content: center;  
+  }
 
     .team-member__content :global(h2) {
       font-size: 1.2rem;

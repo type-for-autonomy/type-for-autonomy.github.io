@@ -1,5 +1,9 @@
 ---
 // Nav.astro
+const pathname = Astro.url.pathname;
+const isHome = pathname === '/';
+const isTeam = pathname === '/team' || pathname.startsWith('/team/');
+const isBlog = pathname === '/blog' || pathname.startsWith('/blog/');
 ---
 <header class:list={['header']} role="banner">
   <nav class="nav section-inner" aria-label="Main navigation">
@@ -21,12 +25,14 @@
     </button>
 
     <ul class="nav-links" id="nav-links" role="list">
-      <li><a href="#mission">Mission</a></li>
-      <li><a href="#values">Values</a></li>
-      <li><a href="#process">Process</a></li>
-      <li><a href="#journey">Journey</a></li>
-      <li><a href="#partners">Partners</a></li>
-      <li><a href="#blog">Updates</a></li>
+      <li><a href="/" class:list={['page-link', {active: isHome}]}>Home</a></li>
+      <!-- <li><a href="#mission" class="section-link">Mission</a></li>
+      <li><a href="#values" class="section-link">Values</a></li>
+      <li><a href="#process" class="section-link">Process</a></li>
+      <li><a href="#journey" class="section-link">Journey</a></li>
+      <li><a href="#partners" class="section-link">Partners</a></li> -->
+      <li><a href="/team" class:list={['page-link', {active: isTeam}]}>Team</a></li>
+      <li><a href="/blog" class:list={['page-link', {active: isBlog}]}>Updates</a></li>
       <li>
         <a href="#footer-involved" class="nav-cta">Get Involved</a>
       </li>
@@ -35,31 +41,137 @@
 </header>
 
 <script>
-  const toggle = document.getElementById('menu-toggle')!;
-  const links  = document.getElementById('nav-links')!;
-  toggle.addEventListener('click', () => {
-    const open = toggle.getAttribute('aria-expanded') === 'true';
-    toggle.setAttribute('aria-expanded', String(!open));
-    links.classList.toggle('open', !open);
-  });
-  // close on link click
-  links.querySelectorAll('a').forEach(a =>
-    a.addEventListener('click', () => {
-      toggle.setAttribute('aria-expanded', 'false');
-      links.classList.remove('open');
-    })
+  const header = document.querySelector<HTMLElement>('.header');
+  const toggle = document.getElementById('menu-toggle') as HTMLButtonElement | null;
+  const links = document.getElementById('nav-links') as HTMLUListElement | null;
+
+  if (!header || !toggle || !links) {
+    throw new Error('Nav elements are missing from the page.');
+  }
+
+  const headerEl = header;
+  const toggleBtn = toggle;
+  const linksEl = links;
+
+  // Make this larger than navbar height so reveal feels forgiving.
+  const TOP_REVEAL_ZONE_PX = 120;
+  const SCROLL_SHOW_PX = 24;
+  const MOBILE_MEDIA_QUERY = '(max-width: 45em)';
+
+  const allTabs = Array.from(
+    document.querySelectorAll<HTMLAnchorElement>('.nav-links a:not(.nav-cta)'),
   );
+  const pageTabs = Array.from(
+    document.querySelectorAll<HTMLAnchorElement>('.nav-links a.page-link'),
+  );
+  const sectionTabs = Array.from(
+    document.querySelectorAll<HTMLAnchorElement>('.nav-links a.section-link[href^="#"]'),
+  );
+
+  let pointerNearTop = false;
+
+  function setActiveTab(tab: HTMLAnchorElement | null): void {
+    allTabs.forEach((item) => item.classList.remove('active'));
+    if (tab) tab.classList.add('active');
+  }
+
+  function updateHeaderVisibility(): void {
+    if (window.matchMedia(MOBILE_MEDIA_QUERY).matches) {
+      headerEl.classList.add('is-visible');
+      return;
+    }
+
+    const menuOpen = linksEl.classList.contains('open');
+    const shouldShow = window.scrollY > SCROLL_SHOW_PX || pointerNearTop || menuOpen;
+    headerEl.classList.toggle('is-visible', shouldShow);
+  }
+
+  function closeMobileMenu(): void {
+    toggleBtn.setAttribute('aria-expanded', 'false');
+    linksEl.classList.remove('open');
+    updateHeaderVisibility();
+  }
+
+  // Toggle mobile menu.
+  toggleBtn.addEventListener('click', () => {
+    const isOpen = toggleBtn.getAttribute('aria-expanded') === 'true';
+    toggleBtn.setAttribute('aria-expanded', String(!isOpen));
+    linksEl.classList.toggle('open', !isOpen);
+    updateHeaderVisibility();
+  });
+
+  // Close mobile menu after any link click.
+  linksEl.querySelectorAll('a').forEach((link) => {
+    link.addEventListener('click', closeMobileMenu);
+  });
+
+  // Show nav while user scrolls or hovers near top edge.
+  window.addEventListener('scroll', updateHeaderVisibility, { passive: true });
+  window.addEventListener('resize', updateHeaderVisibility);
+  window.addEventListener('mousemove', (event) => {
+    pointerNearTop = event.clientY <= TOP_REVEAL_ZONE_PX;
+    updateHeaderVisibility();
+  });
+
+  // Keyboard users should also be able to reveal it.
+  document.addEventListener('focusin', () => {
+    pointerNearTop = true;
+    updateHeaderVisibility();
+  });
+
+  // Build section list only for sections that exist on current page.
+  const sectionEntries: Array<{ tab: HTMLAnchorElement; section: HTMLElement }> = [];
+  for (const tab of sectionTabs) {
+    const id = tab.getAttribute('href')?.slice(1);
+    if (!id) continue;
+    const section = document.getElementById(id);
+    if (!section) continue;
+    sectionEntries.push({ tab, section });
+  }
+
+  if (sectionEntries.length > 0) {
+    // On section-based pages, section highlight has priority over page-level tabs.
+    setActiveTab(null);
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (!entry.isIntersecting) continue;
+          const match = sectionEntries.find((item) => item.section === entry.target);
+          if (!match) continue;
+          setActiveTab(match.tab);
+        }
+      },
+      { rootMargin: '-35% 0px -55% 0px', threshold: 0.01 },
+    );
+
+    sectionEntries.forEach((item) => observer.observe(item.section));
+  } else {
+    // On non-section pages, keep one page tab active.
+    const activePageTab = pageTabs.find((item) => item.classList.contains('active')) ?? null;
+    setActiveTab(activePageTab);
+  }
+
+  updateHeaderVisibility();
 </script>
 
 <style>
   .header {
-    display: none;
+    display: block;
     position: sticky;
     top: 0;
     z-index: 100;
     background: rgba(5, 5, 5, 0.92);
     backdrop-filter: blur(0.5rem);
     border-bottom: 0.0625rem solid var(--color-border);
+    transform: translateY(-110%);
+    opacity: 0;
+    transition: transform var(--transition), opacity var(--transition);
+  }
+
+  .header.is-visible {
+    transform: translateY(0);
+    opacity: 1;
   }
 
   .nav {
@@ -111,8 +223,14 @@
     background: var(--color-tag-bg);
     color: var(--color-primary);
   }
+
+  .nav-links a.active {
+    background: var(--color-primary);
+    color: #000;
+    font-weight: 700;
+  }
   .nav-cta {
-    background: var(--color-primary) !important;
+    /* background: var(--color-primary) !important; */
     color: #000 !important;
     border-radius: var(--radius-sm);
     font-weight: 600 !important;
@@ -141,7 +259,11 @@
   }
 
   @media (max-width: 45em) {
-    .header { display: block; }
+    .header {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
     .menu-toggle { display: flex; }
 
     .nav-links {
