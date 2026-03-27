@@ -1,7 +1,6 @@
 ---
 // Footer.astro
 ---
-<<<<<<< HEAD
 <footer class="footer" role="contentinfo">
   <div class="section-inner" id="footer-involved">
     <div class="footer__inner">
@@ -37,38 +36,26 @@
             <img src="/assets/TYPE/Part 6/instagram.png" alt="instagram" />
           </a>
         </div>
-=======
-<footer class="footer  global-height" role="contentinfo">
-  <div class="footer__inner section-inner" id="footer-involved">
-    <div class="footer__left">
-     <div class="footer__logo">
-        <img src="/assets/TYPE/Part 1/Logo Image.png" alt="" aria-hidden="true" />
->>>>>>> 383dd0a9c57cecdd5fcd08ecc0fe4f695b1fd19a
       </div>
     </div>
 
-    <aside class="footer__funding" aria-label="Funding notice">
-      <h2>Funding Notice</h2>
-      <p>
-        This project is funded by the Government of Canada's New Frontiers in Research Fund (NFRF) -
-        Exploration Program.
-      </p>
-    </aside>
+   
   </div>
 </footer>
 
-<style>  
-.footer {
+<style>
+  .footer {
+    min-height: 100svh;
     display: flex;
     align-items: center;
+    background: var(--color-bg);
+    padding-block: clamp(2.6rem, 6vw, 4.4rem);
   }
 
   .footer__inner {
     display: flex;
-    flex: 1;
-    flex-direction: row;
+    justify-content: space-around;
     align-items: center;
-<<<<<<< HEAD
     gap: clamp(1.5rem, 3vw, 3rem);
     margin-bottom: clamp(1.2rem, 3vw, 1.8rem);
   }
@@ -116,19 +103,6 @@
     align-items: flex-start;
     gap: clamp(0.8rem, 1.8vw, 1.25rem);
     font-weight: 600;
-=======
-    justify-content: space-around;
-    gap: clamp(2rem, 3vw, 3.5rem);
-    width: 100%;
-  }
-
-  .footer__left {
-    display: grid;
-    grid-template-areas: "logo" "heading" "sub" "cta";
-    grid-template-columns: 1fr;
-    grid-auto-rows: auto;
-    gap: clamp(0.5rem, 1.5vw, 1rem);
->>>>>>> 383dd0a9c57cecdd5fcd08ecc0fe4f695b1fd19a
   }
 
   .footer__logo {
@@ -138,36 +112,32 @@
     gap: 0.5rem;
     color: var(--color-text);
     text-decoration: none;
-    font-size: clamp(1.5rem, 3vw, 2rem);
+    font-size: clamp(2rem, 4vw, 3rem);
     font-weight: 700;
     width: fit-content;
   }
 
   .footer__logo img {
-    grid-area: logo;
-    width: min(4rem, 8vw);
+     grid-area: logo;
+    width: min(5rem, 10vw);
     height: auto;
     object-fit: contain;
   }
-<<<<<<< HEAD
  
   .footer__left h1 {
-=======
-   .footer h1 {
->>>>>>> 383dd0a9c57cecdd5fcd08ecc0fe4f695b1fd19a
     all: unset;
     font-family: var(--font-body);
-    font-size: clamp(4.5rem, 10vw, 8rem);
-    letter-spacing: -0.5rem;
+    font-size: clamp(8rem, 16vw, 12rem);
+    letter-spacing: -0.7rem;
     line-height: 0.9;
     font-weight: 700;
   }
 
   .footer__left h2 {
     font-family: var(--font-body);
-    font-size: clamp(1.3rem, 2.5vw, 2rem);
+    font-size: clamp(2.5rem, 6vw, 4rem);
     margin: 0;
-    line-height: 1;
+    line-height: 0.8;
     letter-spacing: -0.02em;
     font-weight: 600;
   }
@@ -176,8 +146,8 @@
     color: var(--color-primary);
     max-width: 100%;
     margin: 0;
-    font-size: clamp(1rem, 1.5vw, 1.3rem);
-    line-height: 1.35;
+    font-size: clamp(1.2rem, 2.3vw, 1.8rem);
+    line-height: 1.4;
     font-family: var(--font-body);
     font-weight: 500;
   }
@@ -191,11 +161,12 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: clamp(1rem, 2vh, 1.5rem);
+    gap: clamp(1.5rem, 3vh, 2.5rem);
+    overflow: visible;
   }
 
   .footer__illustration {
-    width: clamp(15rem, 40vw, 25rem);
+    width: 30vw;
     height: auto;
     object-fit: contain;
   }
@@ -206,7 +177,7 @@
     color: var(--color-primary);
     margin: 0;
     font-weight: 700;
-    font-size: clamp(0.75rem, 1.2vw, 0.9rem);
+    font-size: clamp(0.85rem, 1.5vw, 1rem);
   }
 
   .footer__socials {
@@ -223,7 +194,7 @@
   }
 
   .footer__socials img {
-    width: 100%;
+    width: 5rem;
     height: 100%;
     object-fit: contain;
   }
