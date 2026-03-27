@@ -22,7 +22,7 @@
   --font-body:   'Inter', system-ui, sans-serif;
 
   /* Navbar */
-  --navbar-height:  10svh;
+  --navbar-height:  10vh;
 
   /* Spacing */
   --space-xs:   0.5rem;
@@ -302,13 +302,13 @@ a:focus-visible {
 
 /*  */
 .global-height{
-  height: 100svh;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   overflow: hidden;
-  padding-top: 10svh !important;
+  padding-top: 10vh !important;
 }
 
 @media (max-width: 28rem) {
@@ -318,6 +318,6 @@ a:focus-visible {
 }
 
 .nav-height{
-  height: 10svh;
+  height: 10vh;
 }
 
