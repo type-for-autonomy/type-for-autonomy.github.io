@@ -21,6 +21,9 @@
   /* Typography */
   --font-body:   'Inter', system-ui, sans-serif;
 
+  /* Navbar */
+  --navbar-height:  10svh;
+
   /* Spacing */
   --space-xs:   0.5rem;
   --space-sm:   1rem;
@@ -134,7 +137,7 @@ a:focus-visible {
   color: #ffffff;
   text-decoration: none;
   font-weight: 700;
-  font-size: 1.5rem;
+  font-size: 1.1rem;
   text-transform: uppercase;
   letter-spacing: 0.035em;
 }
@@ -204,11 +207,10 @@ a:focus-visible {
   .section-inner {
     padding: 0 clamp(1rem, 3vw, 1.5rem);
   }
-
   .btn {
     min-height: clamp(2.6rem, 8vh, 3rem);
     padding: clamp(0.6rem, 2vw, 0.8rem) clamp(1.2rem, 4vw, 1.6rem);
-    font-size: clamp(1rem, 2.5vw, 1.3rem);
+    font-size: clamp(0.95rem, 2vw, 1.2rem);
     letter-spacing: 0.03em;
   }
 
@@ -296,3 +298,26 @@ a:focus-visible {
     gap: 0.4rem;
   }
 }
+
+
+/*  */
+.global-height{
+  height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  padding-top: 10svh !important;
+}
+
+@media (max-width: 28rem) {
+  .global-height {
+    padding-top: 0 !important;
+  }
+}
+
+.nav-height{
+  height: 10svh;
+}
+

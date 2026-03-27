@@ -1,66 +1,73 @@
 ---
 // About.astro
 ---
-<section id="mission" class="mission" aria-labelledby="mission-heading">
-  <div class="mission__inner section-inner">
-      <div class="mission__top">
+<section id="mission" class="mission global-height" aria-labelledby="mission-heading">
+    <div class="mission__inner section-inner">
+      <div class="mission__inner__left">
         <h2 id="mission-heading">Your voice.<br />Your way.</h2>
-        <img src="/assets/TYPE/Part 2/infinity.png" alt="" aria-hidden="true" loading="lazy" />
+        <a href="#process" class="mission__inner__btn btn">Our Mission</a>
       </div>
-      <p class="mission__inner__description">
-        We are building TYPE to create innovative, adaptive training for nonspeaking autistic
-        people to grow their skills and be heard.
-      </p>
-    <a href="#process" class="mission__inner__btn btn">Our Mission</a>
+      <div class="mission__inner__right">
+        <img src="/assets/TYPE/Part 2/infinity.png" alt="" aria-hidden="true" loading="lazy" />
+        <p class="mission__inner__description">
+          We are building TYPE to create innovative, adaptive training for nonspeaking autistic
+          people to grow their skills and be heard.
+        </p>
+      </div>
   </div>
 </section>
 
-<style>
-  .mission {
-    min-height: 100svh;
+<style>  
+.mission {
     display: flex;
     align-items: center;
     background: var(--color-surface-alt);
     color: #0d0d0d;
-    padding-block: clamp(2.4rem, 5vw, 4.2rem);
-  }
-
-  .mission__inner {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    border: 0.25rem solid #888;
-    border-radius: 2.5rem;
-    padding: clamp(2rem, 4vw, 3rem);
-    display: grid;
-    gap: 1.5rem;
-    margin: 0 5rem;
     
   }
 
-  .mission__top {
+  .mission__inner {
+         display: flex;
+    flex: 1;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    gap: clamp(2rem, 3vw, 3.5rem);
+    width: 100%;
+  }
+
+  .mission__inner__left {
     display: flex;
+    flex-direction: column;
     justify-content: space-between;
-    padding-top: 2rem;
+    align-items: center;
+    gap: clamp(3rem, 10vw, 4rem);
   }
 
-  .mission__top img {
-    width: 40vw;
-    margin: -8rem -8rem -5rem 0;
+  .mission__inner__right {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
   }
-
-  .mission__top h2 {
-    font-size: clamp(5rem, 10vw, 7rem);
+  .mission__inner__right  img {
+    width: clamp(20rem, 35vw, 30rem);
+    height: auto;
+    object-fit: contain;
+  }
+  .mission__inner__left h2 {
+    font-size: clamp(2.8rem, 6vw, 4.5rem);
     font-weight: 500;
-    line-height: .9;
+    line-height: 0.95;
+    margin: 0;
   }
 
   .mission__inner__description {
     color: #222;
-    font-size: clamp(2rem, 2.3vw, 3rem);
-    line-height: 1.35;
-    max-width: 46rem;
-    margin-left: 65%;
+    font-size: clamp(1.1rem, 1.8vw, 1.5rem);
+    line-height: 1.45;
+    max-width: 50rem;
+    margin: 0;
   }
 
   .mission__inner__btn {
@@ -68,7 +75,6 @@
     color: #ffffff;
     border-color: #000;
     background: #000;
-    justify-self: center;
   }
 
   .mission__panel .btn:hover,
@@ -76,7 +82,6 @@
     background: #1d1d1d;
     color: #fff;
   }
-
   /* Tablet: 48rem (768px) */
   @media (max-width: 48rem) {
     .mission {
@@ -84,36 +89,32 @@
     }
 
     .mission__inner {
-      margin: 0 clamp(1rem, 3vw, 1.5rem);
-      padding: clamp(1.5rem, 3vw, 2.5rem);
-      border-radius: 2rem;
+      flex-direction: column-reverse;
+      gap: clamp(2rem, 4vh, 2.5rem);
     }
 
-    .mission__top {
-      flex-direction: column;
+    .mission__inner__left {
       align-items: center;
-      gap: clamp(1.5rem, 3vh, 2rem);
+      gap: clamp(2rem, 3vh, 2.5rem);
     }
 
-    .mission__top h2 {
-      font-size: clamp(3rem, 8vw, 5rem);
+    .mission__inner__left h2 {
+      font-size: clamp(2.5rem, 8vw, 4rem);
       text-align: center;
     }
 
-    .mission__top img {
-      width: clamp(15rem, 40vw, 25rem);
-      margin: 0;
+    .mission__inner__right {
+      align-items: center;
+    }
+
+    .mission__inner__right img {
+      width: clamp(15rem, 50vw, 25rem);
     }
 
     .mission__inner__description {
-      font-size: clamp(1.2rem, 3vw, 2rem);
-      margin-left: 0;
+      font-size: clamp(1rem, 2.5vw, 1.5rem);
       text-align: center;
       max-width: 100%;
-    }
-
-    .mission__inner__btn {
-      margin-top: clamp(1rem, 2vh, 1.5rem);
     }
   }
 
@@ -124,35 +125,30 @@
     }
 
     .mission__inner {
-      margin: 0 0.75rem;
-      padding: 1.25rem;
-      border-radius: 1rem;
+      gap: 1.5rem;
+    }
+
+    .mission__inner__left {
+      gap: 1.5rem;
+    }
+
+    .mission__inner__left h2 {
+      font-size: clamp(2rem, 7vw, 3rem);
+      text-align: center;
+    }
+
+    .mission__inner__right {
       gap: 1rem;
     }
 
-    .mission__top {
-      gap: 1rem;
-    }
-
-    .mission__top h2 {
-      font-size: clamp(2.5rem, 10vw, 4rem);
-      letter-spacing: -0.01em;
-    }
-
-    .mission__top img {
-      width: clamp(20rem, 40vw, 25rem);
+    .mission__inner__right img {
+      width: clamp(12rem, 60vw, 20rem);
     }
 
     .mission__inner__description {
-      font-size: clamp(1.25rem, 2.5vw, 2rem);
+      font-size: clamp(0.95rem, 2vw, 1.2rem);
+      text-align: center;
     }
-/* 
-    .mission__inner__btn {
-      font-size: 0.75rem;
-      padding: 0.45rem 1.2rem;
-      min-height: 2.4rem;
-      margin-top: 1rem;
-    } */
   }
 
 </style>

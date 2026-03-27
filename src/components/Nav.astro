@@ -5,7 +5,7 @@ const isHome = pathname === '/';
 const isTeam = pathname === '/team' || pathname.startsWith('/team/');
 const isBlog = pathname === '/blog' || pathname.startsWith('/blog/');
 ---
-<header class:list={['header']} role="banner">
+<header class:list={['header', 'nav-height']} role="banner">
   <nav class="nav section-inner" aria-label="Main navigation">
     <a href="/" class="logo" aria-label="TYPE — home">
       <img class="logo-mark" src="/assets/TYPE/Part 1/Logo Image.png" alt="" aria-hidden="true" />
@@ -53,9 +53,10 @@ const isBlog = pathname === '/blog' || pathname.startsWith('/blog/');
   const toggleBtn = toggle;
   const linksEl = links;
 
-  // Make this larger than navbar height so reveal feels forgiving.
+  // Configuration
   const TOP_REVEAL_ZONE_PX = 120;
   const SCROLL_SHOW_PX = 24;
+  const SCROLL_HIDE_DELAY_MS = 2000; // Hide navbar after 2 seconds of no scrolling
   const MOBILE_MEDIA_QUERY = '(max-width: 45em)';
 
   const allTabs = Array.from(
@@ -69,10 +70,20 @@ const isBlog = pathname === '/blog' || pathname.startsWith('/blog/');
   );
 
   let pointerNearTop = false;
+  let isScrolling = false;
+  let scrollHideTimeout: number | null = null;
+  let lastScrollTime = 0;
 
   function setActiveTab(tab: HTMLAnchorElement | null): void {
     allTabs.forEach((item) => item.classList.remove('active'));
     if (tab) tab.classList.add('active');
+  }
+
+  function clearScrollHideTimeout(): void {
+    if (scrollHideTimeout !== null) {
+      clearTimeout(scrollHideTimeout);
+      scrollHideTimeout = null;
+    }
   }
 
   function updateHeaderVisibility(): void {
@@ -82,7 +93,7 @@ const isBlog = pathname === '/blog' || pathname.startsWith('/blog/');
     }
 
     const menuOpen = linksEl.classList.contains('open');
-    const shouldShow = window.scrollY > SCROLL_SHOW_PX || pointerNearTop || menuOpen;
+    const shouldShow = isScrolling || pointerNearTop || menuOpen || window.scrollY > SCROLL_SHOW_PX;
     headerEl.classList.toggle('is-visible', shouldShow);
   }
 
@@ -92,7 +103,7 @@ const isBlog = pathname === '/blog' || pathname.startsWith('/blog/');
     updateHeaderVisibility();
   }
 
-  // Toggle mobile menu.
+  // Toggle mobile menu
   toggleBtn.addEventListener('click', () => {
     const isOpen = toggleBtn.getAttribute('aria-expanded') === 'true';
     toggleBtn.setAttribute('aria-expanded', String(!isOpen));
@@ -100,26 +111,41 @@ const isBlog = pathname === '/blog' || pathname.startsWith('/blog/');
     updateHeaderVisibility();
   });
 
-  // Close mobile menu after any link click.
+  // Close mobile menu after any link click
   linksEl.querySelectorAll('a').forEach((link) => {
     link.addEventListener('click', closeMobileMenu);
   });
 
-  // Show nav while user scrolls or hovers near top edge.
-  window.addEventListener('scroll', updateHeaderVisibility, { passive: true });
+  // Handle scroll with auto-hide delay
+  window.addEventListener('scroll', () => {
+    lastScrollTime = Date.now();
+    isScrolling = true;
+    updateHeaderVisibility();
+
+    clearScrollHideTimeout();
+
+    // Hide navbar after delay of no scrolling
+    scrollHideTimeout = window.setTimeout(() => {
+      isScrolling = false;
+      updateHeaderVisibility();
+    }, SCROLL_HIDE_DELAY_MS);
+  }, { passive: true });
+
   window.addEventListener('resize', updateHeaderVisibility);
+
+  // Show nav while hovering near top edge
   window.addEventListener('mousemove', (event) => {
     pointerNearTop = event.clientY <= TOP_REVEAL_ZONE_PX;
     updateHeaderVisibility();
   });
 
-  // Keyboard users should also be able to reveal it.
+  // Keyboard users should also be able to reveal it
   document.addEventListener('focusin', () => {
     pointerNearTop = true;
     updateHeaderVisibility();
   });
 
-  // Build section list only for sections that exist on current page.
+  // Build section list only for sections that exist on current page
   const sectionEntries: Array<{ tab: HTMLAnchorElement; section: HTMLElement }> = [];
   for (const tab of sectionTabs) {
     const id = tab.getAttribute('href')?.slice(1);
@@ -130,7 +156,7 @@ const isBlog = pathname === '/blog' || pathname.startsWith('/blog/');
   }
 
   if (sectionEntries.length > 0) {
-    // On section-based pages, section highlight has priority over page-level tabs.
+    // On section-based pages, section highlight has priority over page-level tabs
     setActiveTab(null);
 
     const observer = new IntersectionObserver(
@@ -147,26 +173,33 @@ const isBlog = pathname === '/blog' || pathname.startsWith('/blog/');
 
     sectionEntries.forEach((item) => observer.observe(item.section));
   } else {
-    // On non-section pages, keep one page tab active.
+    // On non-section pages, keep one page tab active
     const activePageTab = pageTabs.find((item) => item.classList.contains('active')) ?? null;
     setActiveTab(activePageTab);
   }
 
   updateHeaderVisibility();
+
+  // Cleanup on page unload
+  window.addEventListener('beforeunload', () => {
+    clearScrollHideTimeout();
+  });
 </script>
 
-<style>
-  .header {
+<style>  .header {
     display: block;
-    position: sticky;
+    position: fixed;
     top: 0;
+    left: 0;
+    right: 0;
     z-index: 100;
-    background: rgba(5, 5, 5, 0.92);
+    background: rgba(5, 5, 5, 0.95);
     backdrop-filter: blur(0.5rem);
     border-bottom: 0.0625rem solid var(--color-border);
     transform: translateY(-110%);
     opacity: 0;
-    transition: transform var(--transition), opacity var(--transition);
+    transition: transform 300ms cubic-bezier(0.4, 0, 0.2, 1), opacity 300ms ease-out;
+    will-change: transform, opacity;
   }
 
   .header.is-visible {
