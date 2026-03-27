@@ -7,6 +7,7 @@ const blog = defineCollection({
     date: z.coerce.date().optional(),
     pubDate: z.coerce.date().optional(),
     tag: z.string().optional(),
+    bannerImage: z.string().optional(),
     excerpt: z.string().optional(),
     description: z.string().optional(),
     author: z.string(),
@@ -18,6 +19,7 @@ const team = defineCollection({
   schema: z.object({
     name: z.string(),
     role: z.string(),
+    order: z.number(),
     email: z.string(),
     links: z
       .object({

@@ -2,38 +2,50 @@
 // Footer.astro
 ---
 <footer class="footer" role="contentinfo">
-  <div class="footer__inner section-inner" id="footer-involved">
-    <div class="footer__left">
-     <div class="footer__logo">
-        <img src="/assets/TYPE/Part 1/Logo Image.png" alt="" aria-hidden="true" />
+  <div class="section-inner" id="footer-involved">
+    <div class="footer__inner">
+      <div class="footer__left-column">
+        <div class="footer__left">
+         <!-- <div class="footer__logo">
+            <img src="/assets/TYPE/Part 1/Logo Image.png" alt="" aria-hidden="true" />
+          </div>
+          <h1>TYPE</h1> -->
+          <h2>Innovate with us</h2>
+          <p>Help us shape the future of communication.</p>
+          <a href="mailto:research@type-for-autonomy.org" class="btn">Get Involved</a>
+        </div>
       </div>
-      <h1>TYPE</h1>
-      <h2>Innovate with us</h2>
-      <p>Help us shape the future of communication.</p>
-      <a href="mailto:research@type-for-autonomy.org" class="btn">Get Involved</a>
+
+      <div class="footer__right">
+        <img
+          class="footer__illustration"
+          src="/assets/TYPE/Part 6/illustration.png"
+          alt=""
+          aria-hidden="true"
+          loading="lazy"
+        />
+        <p class="footer__social-title">Get Social</p>
+        <div class="footer__socials" role="list" aria-label="Social links">
+          <a href="#" role="listitem" aria-label="Facebook">
+            <img src="/assets/TYPE/Part 6/facebook.png" alt="facebook" />
+          </a>
+          <a href="#" role="listitem" aria-label="Twitter">
+            <img src="/assets/TYPE/Part 6/twitter.png" alt="twitter" />
+          </a>
+          <a href="#" role="listitem" aria-label="Instagram">
+            <img src="/assets/TYPE/Part 6/instagram.png" alt="instagram" />
+          </a>
+        </div>
+      </div>
     </div>
 
-    <div class="footer__right">
-      <img
-        class="footer__illustration"
-        src="/assets/TYPE/Part 6/illustration.png"
-        alt=""
-        aria-hidden="true"
-        loading="lazy"
-      />
-      <p class="footer__social-title">Get Social</p>
-      <div class="footer__socials" role="list" aria-label="Social links">
-        <a href="#" role="listitem" aria-label="Facebook">
-          <img src="/assets/TYPE/Part 6/facebook.png" alt="facebook" />
-        </a>
-        <a href="#" role="listitem" aria-label="Twitter">
-          <img src="/assets/TYPE/Part 6/twitter.png" alt="twitter" />
-        </a>
-        <a href="#" role="listitem" aria-label="Instagram">
-          <img src="/assets/TYPE/Part 6/instagram.png" alt="instagram" />
-        </a>
-      </div>
-    </div>
+    <aside class="footer__funding" aria-label="Funding notice">
+      <h2>Funding Notice</h2>
+      <p>
+        This project is funded by the Government of Canada's New Frontiers in Research Fund (NFRF) -
+        Exploration Program.
+      </p>
+    </aside>
   </div>
 </footer>
 
@@ -50,15 +62,52 @@
     display: flex;
     justify-content: space-around;
     align-items: center;
+    gap: clamp(1.5rem, 3vw, 3rem);
+    margin-bottom: clamp(1.2rem, 3vw, 1.8rem);
+  }
+
+  .footer__left-column {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: clamp(1.25rem, 3vw, 2rem);
+  }
+
+  .footer__funding {
+    max-width: 76ch;
+    margin-inline: auto;
+    padding: clamp(0.9rem, 2vw, 1.2rem) clamp(1rem, 2.3vw, 1.5rem);
+    border-left: 0.35rem solid var(--color-primary);
+    border-radius: 0.5rem;
+    background: #f6efe6;
+    box-shadow: 0 0.6rem 1.6rem rgb(0 0 0 / 0.08);
+  }
+
+  .footer__funding h2 {
+    margin: 0 0 0.45rem;
+    color: var(--color-primary);
+    font-family: var(--font-body);
+    font-size: clamp(1rem, 1.6vw, 1.15rem);
+    line-height: 1.2;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    font-weight: 700;
+  }
+
+  .footer__funding p {
+    margin: 0;
+    color: var(--color-primary);
+    font-family: var(--font-body);
+    font-size: clamp(0.95rem, 1.2vw, 1.05rem);
+    line-height: 1.55;
+    font-weight: 500;
   }
 
   .footer__left {
-    display: grid;
-    grid-template-areas: "logo" "heading" "sub" "description" "cta";
-    grid-template-columns: 1fr;
-    grid-auto-rows: auto;
-    gap: clamp(1rem, 2vh, 1.5rem);
-    align-items: center;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: clamp(0.8rem, 1.8vw, 1.25rem);
     font-weight: 600;
   }
 
@@ -81,9 +130,8 @@
     object-fit: contain;
   }
  
-  .footer h1 {
+  .footer__left h1 {
     all: unset;
-    grid-area: "heading";
     font-family: var(--font-body);
     font-size: clamp(8rem, 16vw, 12rem);
     letter-spacing: -0.7rem;
@@ -91,8 +139,7 @@
     font-weight: 700;
   }
 
-  .footer h2 {
-    grid-area: "sub";
+  .footer__left h2 {
     font-family: var(--font-body);
     font-size: clamp(2.5rem, 6vw, 4rem);
     margin: 0;
@@ -101,8 +148,7 @@
     font-weight: 600;
   }
 
-  .footer p {
-    grid-area: "description";
+  .footer__left > p {
     color: var(--color-primary);
     max-width: 100%;
     margin: 0;
@@ -113,7 +159,6 @@
   }
 
   .footer__left .btn {
-    grid-area: "cta";
     width: fit-content;
   }
 
@@ -163,32 +208,43 @@
   /* Tablet: 48rem (768px) */
   @media (max-width: 48rem) {
     .footer__inner {
-      display: flex;
       flex-direction: column-reverse;
       gap: clamp(2rem, 4vh, 2.5rem);
     }
 
-    .footer__left {
-      display: flex
-      flex-direction: column-reverse;
+    .footer__left-column {
       align-items: center;
+      text-align: center;
     }
 
-    .footer__left h1 {
-      font-size: clamp(3rem, 10vw, 5rem);
-      letter-spacing: -0.3rem;
+    .footer__left {
+      align-items: center;
+      text-align: center;
     }
 
     .footer__left h2 {
       font-size: clamp(2rem, 6vw, 3.5rem);
     }
 
-    .footer__left p {
+    .footer__left > p {
       font-size: clamp(1rem, 2.5vw, 1.5rem);
     }
 
     .footer__right {
       gap: clamp(1rem, 2vh, 1.5rem);
+    }
+
+    .footer__funding,
+    .footer__funding p,
+    .footer__funding h2 {
+      text-align: center;
+    }
+
+    .footer__funding {
+      max-width: 64ch;
+      border-left-width: 0;
+      border-top: 0.3rem solid var(--color-primary);
+      border-radius: 0.6rem;
     }
 
     .footer__illustration {
@@ -212,28 +268,20 @@
     }
 
     .footer__inner {
-       display: flex;
       flex-direction: column-reverse;
       gap: clamp(2rem, 4vh, 2.5rem);
     }
 
     .footer__left {
-    display: flex;
-    flex-direction: column;
       gap: 0.6rem;
       align-items: center;
-    }
-
-    .footer__left h1 {
-      font-size: clamp(2rem, 8vw, 3.5rem);
-      letter-spacing: -0.15rem;
     }
 
     .footer__left h2 {
       font-size: clamp(1.5rem, 5vw, 2.5rem);
     }
 
-    .footer__left p {
+    .footer__left > p {
       font-size: clamp(0.9rem, 2vw, 1.2rem);
     }
 
@@ -267,6 +315,16 @@
 
     .footer__socials img {
       width: 100%;
+    }
+
+    .footer__funding p {
+      font-size: 0.95rem;
+      text-align: center;
+    }
+
+    .footer__funding {
+      padding: 0.9rem;
+      box-shadow: 0 0.35rem 1rem rgb(0 0 0 / 0.08);
     }
   }
 </style>

@@ -1,6 +1,8 @@
 ---
 name: "Diwakar Krishnamurthy"
 role: "Full Professor & Schulich Research Chair"
+
+order: 1
 email: "dkrishna@ucalgary.ca"
 links:
   email: "mailto:dkrishna@ucalgary.ca"

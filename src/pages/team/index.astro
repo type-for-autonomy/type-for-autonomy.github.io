@@ -4,7 +4,11 @@ import Layout from "@/layouts/Layout.astro"
 
 const teamMembers = await getCollection('team');
 // Sort alphabetically by name for consistent display
-const sortedTeam = teamMembers.sort((a, b) => a.data.name.localeCompare(b.data.name));
+const sortedTeam = teamMembers.sort((a, b) => a.data.order - b.data.order);
+const isResearchRole = (role: string) =>
+  /professor|graduate\s*researcher|phd\s*student|research\s*engineer/i.test(role.trim());
+const researchTeam = sortedTeam.filter((member) => isResearchRole(member.data.role));
+const coDesignPartners = sortedTeam.filter((member) => !isResearchRole(member.data.role));
 const hasText = (value?: string) => Boolean(value?.trim());
 const primaryRole = (role: string) => {
   const cleanedRole = role.trim();
@@ -23,9 +27,9 @@ const primaryRole = (role: string) => {
         <p>Meet the passionate individuals behind TYPE.</p>
       </div>
       <div class="team__core">
-        <h2>Core Team</h2>
+        <h2>Research Team</h2>
         <ul class="team__list" role="list">
-          {sortedTeam.map((member) => (
+          {researchTeam.map((member) => (
             <li class="team__card">
               <a href={`/team/${member.slug}`} class="team__card-link">
                 <div class="team__visual">
@@ -53,13 +57,36 @@ const primaryRole = (role: string) => {
         </ul>
       </div>
 
-      <!-- <div class="team__codesign">
-        <h2>Co-Design Team</h2>
-        <p class="team__codesign-intro">Our co-design team includes nonspeaking autistic individuals, caregivers, educators, and community partners who guide and inform our work.</p>
-        <div class="team__placeholder">
-          <p>Co-design team member profiles coming soon</p>
-        </div>
-      </div> -->
+      <div class="team__core">
+        <h2>Co-Design Partners</h2>
+        <ul class="team__list" role="list">
+          {coDesignPartners.map((member) => (
+            <li class="team__card">
+              <a href={`/team/${member.slug}`} class="team__card-link">
+                <div class="team__visual">
+                  <img 
+                    src={member.data.image} 
+                    alt={member.data.name}
+                    class="team__image"
+                    loading="lazy"
+                  />
+                </div>
+                <div class="team__info">
+                  <h3>{member.data.name}</h3>
+                  <p class="team__role">{primaryRole(member.data.role)}</p>
+                {hasText(member.data.email) ? (
+                  <p class="team__email">
+                    {member.data.email}
+                  </p>
+                ) : (
+                  <p class="team__email team__email--muted">Email not listed</p>
+                )}
+                </div>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
     </section>
   </main>
 </Layout>

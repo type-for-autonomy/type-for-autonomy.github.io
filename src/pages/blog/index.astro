@@ -6,14 +6,19 @@ const posts = (await getCollection('blog'))
   .map((entry) => {
     const publishedDate = entry.data.date ?? entry.data.pubDate ?? new Date(0);
     const slug = entry.id.replace(/\.md$/, '');
+    const words = entry.body.split(/\s+/).filter(Boolean).length;
 
     return {
       slug,
       title: entry.data.title,
       author: entry.data.author,
+      authorRole: 'TYPE Contributor',
+      authorInitial: String(entry.data.author ?? 'T').trim().charAt(0).toUpperCase() || 'T',
       tag: entry.data.tag ?? 'Blog',
+      bannerImage: entry.data.bannerImage,
       excerpt: entry.data.excerpt ?? entry.data.description ?? '',
       date: publishedDate,
+      readMinutes: Math.max(1, Math.round(words / 220)),
     };
   })
   .sort((a, b) => b.date.getTime() - a.date.getTime());
@@ -21,8 +26,6 @@ const posts = (await getCollection('blog'))
 
 <Layout title="Blog — TYPE" description="Project updates, research notes, and community voices from TYPE.">
   <main id="main-content" class="blog-page section-inner" aria-labelledby="blog-page-heading">
-    <p class="blog-page__back"><a href="/">← Back to main page</a></p>
-
     <header class="blog-page__header">
       <h1 id="blog-page-heading">Project Blog</h1>
       <p>Research insights, development milestones, and community perspectives from TYPE.</p>
@@ -32,18 +35,44 @@ const posts = (await getCollection('blog'))
       {posts.map((post) => (
         <li>
           <article class="blog-page__card" aria-labelledby={`post-${post.slug}`}>
-            <p class="blog-page__meta">
-              <span>{post.tag}</span>
-              <span aria-hidden="true">•</span>
-              <time datetime={post.date.toISOString().slice(0, 10)}>
-                {post.date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
-              </time>
-            </p>
-            <h2 id={`post-${post.slug}`}>
+            <a href={`/blog/${post.slug}/`} class="blog-page__image-link" aria-label={`Open ${post.title}`}>
+              {post.bannerImage ? (
+                <img
+                  src={post.bannerImage}
+                  alt={`Banner image for ${post.title}`}
+                  class="blog-page__banner"
+                  loading="lazy"
+                />
+              ) : (
+                <div class="blog-page__banner blog-page__banner--placeholder" aria-hidden="true"></div>
+              )}
+            </a>
+            <hr class="blog-page__divider" aria-hidden="true" />
+
+            <div class="blog-page__meta">
+              <span class="blog-page__tag">{post.tag}</span>
+              <p class="blog-page__date-wrap">
+                <time datetime={post.date.toISOString().slice(0, 10)}>
+                  {post.date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+                </time>
+                <span aria-hidden="true">•</span>
+                <span>{post.readMinutes} min</span>
+              </p>
+            </div>
+
+            <h2 id={`post-${post.slug}`} class="blog-page__title">
               <a href={`/blog/${post.slug}/`}>{post.title}</a>
             </h2>
-            <p>{post.excerpt}</p>
-            <p class="blog-page__author">By {post.author}</p>
+
+            <p class="blog-page__excerpt">{post.excerpt}</p>
+
+            <footer class="blog-page__author-row">
+              <span class="blog-page__avatar" aria-hidden="true">{post.authorInitial}</span>
+              <p class="blog-page__author-block">
+                <span class="blog-page__author-name">{post.author}</span>
+                <span class="blog-page__author-role">{post.authorRole}</span>
+              </p>
+            </footer>
           </article>
         </li>
       ))}
@@ -53,77 +82,184 @@ const posts = (await getCollection('blog'))
 
 <style>
   .blog-page {
-    padding-block: var(--space-xl);
-  }
-
-  .blog-page__back {
-    margin-bottom: 1rem;
-  }
-
-  .blog-page__back a {
-    color: var(--color-primary);
-    text-decoration: none;
-  }
-
-  .blog-page__back a:hover,
-  .blog-page__back a:focus-visible {
-    text-decoration: underline;
+    padding-block: clamp(2rem, 6vw, 4.2rem);
+    /* background:
+      radial-gradient(circle at 92% 8%, rgba(224, 211, 19, 0.14), transparent 32%),
+      linear-gradient(180deg, #0b0b0b 0%, #111111 100%); */
+    max-width: 104rem;
   }
 
   .blog-page__header {
-    max-width: 43.75rem;
-    margin-bottom: var(--space-lg);
+    max-width: 48rem;
+    margin-bottom: 1.6rem;
   }
 
   .blog-page__header h1 {
-    font-size: clamp(2rem, 5vw, 2.8rem);
-    margin-bottom: 0.75rem;
+    color: var(--color-text);
+    font-size: clamp(2rem, 3.8vw, 3rem);
+    margin-bottom: 0.55rem;
   }
 
   .blog-page__header p {
     color: var(--color-text-muted);
+    font-size: 1.02rem;
+    line-height: 1.5;
   }
 
   .blog-page__list {
     list-style: none;
     display: grid;
-    gap: 1rem;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.5rem;
+    margin: 0;
   }
 
   .blog-page__card {
-    border: 0.0625rem solid var(--color-border);
-    border-radius: var(--radius-lg);
-    padding: 1.25rem;
-    background: var(--color-bg);
+border: 0.0625rem solid color-mix(in srgb, var(--color-primary) 25%, transparent);    
+    border-radius: var(--radius-md);
+    padding: 0.85rem;
+    background: var(--color-surface);
+    min-width: 0;
+  }
+
+  .blog-page__divider {
+    border: none;
+    border-top: 0.0625rem solid color-mix(in srgb, var(--color-primary) 25%, transparent);
+    margin: 0.85rem 0;
+  }
+  .blog-page__image-link {
+    display: block;
+    text-decoration: none;
+  }
+
+  .blog-page__banner {
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    object-fit: cover;
+    border-radius: calc(var(--radius-md) - 0.15rem);
+    background: #1a1a1a;
+  }
+
+  .blog-page__banner--placeholder {
+    background: linear-gradient(135deg, #1e1e1e 0%, #111111 100%);
+    min-height: 12rem;
   }
 
   .blog-page__meta {
     display: flex;
-    gap: 0.5rem;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 0.75rem;
     flex-wrap: wrap;
+    margin-top: 0.72rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .blog-page__tag {
+    font-size: 0.72rem;
+    font-weight: 500;
+    color: var(--color-tag-text);
+    background: var(--color-tag-bg);
+    padding: 0.34rem 0.66rem;
+    border-radius: 0.22rem;
+    white-space: nowrap;
+  }
+
+  .blog-page__date-wrap {
+    display: flex;
+    align-items: center;
+    gap: 0.38rem;
     color: var(--color-text-muted);
     font-size: 0.9rem;
-    margin-bottom: 0.5rem;
   }
 
-  .blog-page__card h2 {
-    margin-bottom: 0.5rem;
-    font-size: 1.2rem;
+  .blog-page__title {
+    margin-bottom: 0.45rem;
+    font-size: clamp(1.6rem, 2vw, 1.85rem);
+    font-weight: 700;
+    line-height: 1.18;
+    letter-spacing: -0.02em;
+    color: var(--color-text);
   }
 
-  .blog-page__card h2 a {
+  .blog-page__title a {
     color: inherit;
     text-decoration: none;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
 
-  .blog-page__card h2 a:hover,
-  .blog-page__card h2 a:focus-visible {
-    text-decoration: underline;
+  .blog-page__title a:hover,
+  .blog-page__title a:focus-visible {
+    color: var(--color-primary);
   }
 
-  .blog-page__author {
-    margin-top: 0.75rem;
+  .blog-page__excerpt {
+    font-size: clamp(0.98rem, 1.2vw, 1.02rem);
     color: var(--color-text-muted);
+    line-height: 1.45;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .blog-page__author-row {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-top: 0.75rem;
+  }
+
+  .blog-page__avatar {
+    width: 2.3rem;
+    height: 2.3rem;
+    border-radius: 999rem;
+    background: linear-gradient(145deg, var(--color-primary) 0%, var(--color-primary-dk) 100%);
+    color: #161616;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
     font-size: 0.95rem;
+  }
+
+  .blog-page__author-block {
+    display: grid;
+    line-height: 1.15;
+    gap: 0.18rem;
+  }
+
+  .blog-page__author-name {
+    color: var(--color-text);
+    font-size: 0.92rem;
+    font-weight: 700;
+  }
+
+  .blog-page__author-role {
+    color: var(--color-text-muted);
+    font-size: 0.84rem;
+  }
+
+  @media (max-width: 64rem) {
+    .blog-page__list {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .blog-page__title {
+      font-size: clamp(1.35rem, 2.6vw, 1.65rem);
+    }
+  }
+
+  @media (max-width: 42rem) {
+    .blog-page__list {
+      grid-template-columns: 1fr;
+    }
+
+    .blog-page__banner {
+      aspect-ratio: 16 / 9;
+    }
   }
 </style>

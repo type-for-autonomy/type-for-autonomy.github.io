@@ -1,6 +1,8 @@
 ---
 name: "Kristen Gillespie-Lynch"
 role: "Professor of Developmental and Educational Psychology"
+
+order: 3
 email: "kristen.Gillespie@csi.cuny.edu"
 links:
   email: "mailto:kristen.Gillespie@csi.cuny.edu"

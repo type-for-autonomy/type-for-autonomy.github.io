@@ -1,6 +1,8 @@
 ---
 name: "Vikram Jaswal"
 role: "Professor of Psychology"
+
+order: 2
 email: "jaswal@virginia.edu"
 links:
   email: "mailto:jaswal@virginia.edu"

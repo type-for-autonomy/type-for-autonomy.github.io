@@ -1,5 +1,4 @@
 ---
-// Blog.astro
 import { getCollection } from 'astro:content';
 
 const allPosts = await getCollection('blog');
@@ -8,9 +7,11 @@ const posts = allPosts
   .map((entry) => {
     const publishedDate = entry.data.date ?? entry.data.pubDate ?? new Date(0);
     const slug = entry.id.replace(/\.md$/, '');
+    const words = entry.body.split(/\s+/).filter(Boolean).length;
 
     return {
       href: `/blog/${slug}/`,
+      id: slug,
       date: publishedDate.toISOString().slice(0, 10),
       dateDisplay: publishedDate.toLocaleDateString('en-US', {
         year: 'numeric',
@@ -18,210 +19,265 @@ const posts = allPosts
         day: 'numeric',
       }),
       tag: entry.data.tag ?? 'Blog',
+      bannerImage: entry.data.bannerImage,
       title: entry.data.title,
       excerpt: entry.data.excerpt ?? entry.data.description ?? '',
       author: entry.data.author,
+      authorRole: 'TYPE Contributor',
+      authorInitial: String(entry.data.author ?? 'T').trim().charAt(0).toUpperCase() || 'T',
+      readMinutes: Math.max(1, Math.round(words / 220)),
     };
   })
-  .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
-  .map((post) => ({
-    ...post,
-    id: post.href.replaceAll('/', '-'),
-  }));
+  .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 ---
 
 <section id="blog" class="blog" aria-labelledby="blog-heading">
   <div class="blog__inner section-inner">
-
-    <header class="section-header">
-      <span class="section-label" aria-hidden="true">Updates</span>
-      <h2 id="blog-heading" class="section-title">Latest from the Project</h2>
-      <p class="section-intro">
-        Research insights, development milestones, and community perspectives —
-        shared openly as we build.
-      </p>
+    <header class="blog__header">
+      <h2 id="blog-heading" class="blog__heading">Latest Articles</h2>
+      <a href="/blog/" class="blog__all">View all</a>
     </header>
 
     <ul class="blog__grid" role="list">
-      {posts.map(post => (
+      {posts.map((post) => (
         <li class="post-card" role="listitem">
           <article aria-labelledby={`post-${post.id}`}>
+            <a href={post.href} class="post-card__image-link" aria-label={`Open ${post.title}`}>
+              {post.bannerImage ? (
+                <img
+                  src={post.bannerImage}
+                  alt={`Banner image for ${post.title}`}
+                  class="post-card__banner"
+                  loading="lazy"
+                />
+              ) : (
+                <div class="post-card__banner post-card__banner--placeholder" aria-hidden="true"></div>
+              )}
+            </a>
+
             <div class="post-card__meta">
               <span class="post-card__tag">{post.tag}</span>
-              <time class="post-card__date" datetime={post.date}>{post.dateDisplay}</time>
+              <p class="post-card__date-wrap">
+                <time class="post-card__date" datetime={post.date}>{post.dateDisplay}</time>
+                <span aria-hidden="true">•</span>
+                <span>{post.readMinutes} min</span>
+              </p>
             </div>
-            <h3 class="post-card__title" id={`post-${post.id}`}>{post.title}</h3>
+
+            <h3 class="post-card__title" id={`post-${post.id}`}>
+              <a href={post.href}>{post.title}</a>
+            </h3>
+
             <p class="post-card__excerpt">{post.excerpt}</p>
+
             <footer class="post-card__footer">
-              <span class="post-card__author">By {post.author}</span>
-              <a href={post.href} class="post-card__read-more" aria-label={`Read more: ${post.title}`}>
-                Read more
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                  <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
-                </svg>
-              </a>
+              <span class="post-card__avatar" aria-hidden="true">{post.authorInitial}</span>
+              <p class="post-card__author-block">
+                <span class="post-card__author-name">{post.author}</span>
+                <span class="post-card__author-role">{post.authorRole}</span>
+              </p>
             </footer>
           </article>
         </li>
       ))}
     </ul>
-
-    <div class="blog__cta">
-      <a href="/blog/" class="btn btn--outline" aria-label="View all project updates">
-        View all updates
-      </a>
-    </div>
-
   </div>
 </section>
 
 <style>
   .blog {
-    padding-block: var(--space-xl);
-    background: var(--color-surface);
+    padding-block: clamp(2rem, 6vw, 4.2rem);
+    background: #eceef2;
   }
 
-  .section-header {
-    max-width: 42.5rem;
-    margin-bottom: var(--space-lg);
+  .blog__inner {
+    max-width: 104rem;
   }
-  .section-label {
-    display: inline-block;
-    font-size: 0.78rem;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--color-primary);
-    margin-bottom: 0.6rem;
+
+  .blog__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.2rem;
   }
-  .section-title {
-    font-size: clamp(1.8rem, 3.5vw, 2.4rem);
-    font-weight: 700;
+
+  .blog__heading {
+    font-size: clamp(1.4rem, 3vw, 2rem);
+    color: #161d29;
     line-height: 1.2;
-    margin-bottom: 0.9rem;
   }
-  .section-intro {
-    font-size: 1.05rem;
-    color: var(--color-text-muted);
-    line-height: 1.75;
+
+  .blog__all {
+    color: #4f46e5;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.95rem;
+  }
+
+  .blog__all:hover,
+  .blog__all:focus-visible {
+    text-decoration: underline;
   }
 
   .blog__grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(18.75rem, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 1.5rem;
     list-style: none;
-    margin-bottom: var(--space-md);
+    margin: 0;
   }
 
   .post-card {
-    background: var(--color-bg);
-    border: 0.0625rem solid var(--color-border);
-    border-radius: var(--radius-lg);
-    padding: 1.75rem;
-    display: flex;
-    flex-direction: column;
-    transition: box-shadow var(--transition), transform var(--transition);
+    background: transparent;
+    border: none;
+    padding: 0;
+    min-width: 0;
   }
-  .post-card:hover {
-    box-shadow: 0 0.375rem 1.5rem rgba(42,125,111,0.09);
-    transform: translateY(-0.125rem);
-  }
+
   .post-card article {
     display: flex;
     flex-direction: column;
-    height: 100%;
-    gap: 0.6rem;
+    gap: 0.65rem;
+    min-height: 100%;
+  }
+
+  .post-card__image-link {
+    display: block;
+    text-decoration: none;
+  }
+
+  .post-card__banner {
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    object-fit: cover;
+    border-radius: 0.42rem;
+    border: 0.0625rem solid #d8dde6;
+    background: #cfd5de;
+  }
+
+  .post-card__banner--placeholder {
+    background: linear-gradient(135deg, #cfd6e2 0%, #bcc5d3 100%);
+    min-height: 12rem;
   }
 
   .post-card__meta {
     display: flex;
-    align-items: center;
+    justify-content: space-between;
+    align-items: baseline;
     gap: 0.75rem;
+    margin-top: 0.35rem;
     flex-wrap: wrap;
   }
+
   .post-card__tag {
-    font-size: 0.75rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.07em;
-    color: var(--color-tag-text);
-    background: var(--color-tag-bg);
-    padding: 0.25rem 0.65rem;
-    border-radius: 6.1875rem;
+    font-size: 0.72rem;
+    font-weight: 500;
+    color: #6f57e8;
+    background: #e9e1ff;
+    padding: 0.34rem 0.66rem;
+    border-radius: 0.22rem;
+    white-space: nowrap;
   }
-  .post-card__date {
-    font-size: 0.82rem;
-    color: var(--color-text-muted);
+
+  .post-card__date-wrap {
+    display: flex;
+    align-items: center;
+    gap: 0.38rem;
+    color: #717b8a;
+    font-size: 0.9rem;
   }
 
   .post-card__title {
-    font-size: 1.05rem;
+    font-size: clamp(1.6rem, 2vw, 1.85rem);
     font-weight: 700;
-    line-height: 1.35;
+    line-height: 1.18;
+    letter-spacing: -0.02em;
+    color: #101826;
+  }
+
+  .post-card__title a {
+    color: inherit;
+    text-decoration: none;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .post-card__title a:hover,
+  .post-card__title a:focus-visible {
+    color: #3440b7;
   }
 
   .post-card__excerpt {
-    font-size: 0.93rem;
-    color: var(--color-text-muted);
-    line-height: 1.7;
-    flex: 1;
+    font-size: clamp(0.98rem, 1.2vw, 1.02rem);
+    color: #2b3342;
+    line-height: 1.45;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
 
   .post-card__footer {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    margin-top: 0.75rem;
-    padding-top: 0.75rem;
-    border-top: 0.0625rem solid var(--color-border);
-    gap: 0.5rem;
-    flex-wrap: wrap;
-  }
-  .post-card__author {
-    font-size: 0.82rem;
-    color: var(--color-text-muted);
-    font-weight: 500;
-  }
-  .post-card__read-more {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.3rem;
-    font-size: 0.88rem;
-    font-weight: 600;
-    color: var(--color-primary);
-    text-decoration: none;
-    transition: gap var(--transition);
-  }
-  .post-card__read-more:hover { gap: 0.55rem; }
-
-  .blog__cta {
-    text-align: center;
+    gap: 0.6rem;
+    margin-top: auto;
+    padding-top: 0.45rem;
   }
 
-  .btn {
+  .post-card__avatar {
+    width: 2.3rem;
+    height: 2.3rem;
+    border-radius: 999rem;
+    background: linear-gradient(145deg, #1d2431 0%, #0f141e 100%);
+    color: #f8faff;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    padding: 0.75rem 1.75rem;
-    border-radius: var(--radius-md);
-    font-size: 1rem;
-    font-weight: 600;
-    text-decoration: none;
-    transition: background var(--transition), color var(--transition), box-shadow var(--transition);
-    cursor: pointer;
-    border: 0.125rem solid transparent;
-    min-height: 3rem;
-    font-family: var(--font-body);
+    font-weight: 700;
+    font-size: 0.95rem;
   }
-  .btn:focus-visible {
-    outline: 0.1875rem solid var(--color-accent);
-    outline-offset: 0.1875rem;
+
+  .post-card__author-block {
+    display: grid;
+    line-height: 1.15;
+    gap: 0.18rem;
   }
-  .btn--outline {
-    background: transparent;
-    color: var(--color-primary);
-    border-color: var(--color-primary);
+
+  .post-card__author-name {
+    color: #151d2a;
+    font-size: 0.92rem;
+    font-weight: 700;
   }
-  .btn--outline:hover { background: var(--color-tag-bg); }
+
+  .post-card__author-role {
+    color: #6a7383;
+    font-size: 0.84rem;
+  }
+
+  @media (max-width: 64rem) {
+    .blog__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .post-card__title {
+      font-size: clamp(1.35rem, 2.6vw, 1.65rem);
+    }
+  }
+
+  @media (max-width: 42rem) {
+    .blog__header {
+      align-items: end;
+    }
+
+    .blog__grid {
+      grid-template-columns: 1fr;
+    }
+
+    .post-card__banner {
+      aspect-ratio: 16 / 9;
+    }
+  }
 </style>

@@ -1,6 +1,8 @@
 ---
 name: "Sofya Gektin"
 role: "PhD Student in Developmental Psychology"
+
+order: 5
 email: "cpp8ep@virginia.edu"
 links:
   email: "mailto:cpp8ep@virginia.edu"

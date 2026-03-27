@@ -12,83 +12,471 @@ export async function getStaticPaths() {
 }
 
 const { post } = Astro.props;
-const { Content } = await render(post);
+const { Content, headings } = await render(post);
 const publishedDate = post.data.date ?? post.data.pubDate ?? new Date(0);
+const words = post.body.split(/\s+/).filter(Boolean).length;
+const readMinutes = Math.max(1, Math.round(words / 220));
+const authorLabel = String(post.data.author ?? 'TYPE Team');
+const authorInitial = authorLabel.trim().charAt(0).toUpperCase() || 'T';
+const tocHeadings = headings.filter((heading) => heading.depth === 2 || heading.depth === 3);
+const hasToc = tocHeadings.length > 0;
 ---
 
 <Layout title={`${post.data.title} — TYPE Blog`} description={post.data.excerpt ?? post.data.description ?? 'Blog post'}>
-  <main id="main-content" class="blog-post section-inner" aria-labelledby="post-title">
-    <p class="blog-post__back"><a href="/blog/">← Back to all posts</a></p>
+  <main id="main-content" class="blog-post" aria-labelledby="post-title">
+    <section class="blog-hero">
+      <div class="section-inner blog-hero__inner">
+        <article class="blog-hero__copy">
+          <p class="blog-hero__crumbs">
+            <a href="/blog/">Blog</a>
+            <span aria-hidden="true">›</span>
+            <span>{post.data.title}</span>
+          </p>
 
-    <article>
-      <header class="blog-post__header">
-        <p class="blog-post__meta">
-          <span>{post.data.tag ?? 'Blog'}</span>
-          <span aria-hidden="true">•</span>
-          <time datetime={publishedDate.toISOString().slice(0, 10)}>
-            {publishedDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
-          </time>
-          <span aria-hidden="true">•</span>
-          <span>By {post.data.author}</span>
-        </p>
-        <h1 id="post-title">{post.data.title}</h1>
-      </header>
+          <h1 id="post-title">{post.data.title}</h1>
 
-      <div class="blog-post__content">
-        <Content />
+          {post.data.description && <p class="blog-hero__dek">{post.data.description}</p>}
+
+          <div class="blog-hero__author">
+            <span class="blog-hero__avatar" aria-hidden="true">{authorInitial}</span>
+            <p>
+              <strong>{authorLabel}</strong>
+              <span>TYPE Project Team</span>
+            </p>
+          </div>
+
+          <p class="blog-hero__updated">
+            Last Updated:
+            <time datetime={publishedDate.toISOString().slice(0, 10)}>
+              {publishedDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+            </time>
+            <span aria-hidden="true">•</span>
+            <span>{readMinutes} min read</span>
+          </p>
+        </article>
+
+        <div class="blog-hero__media" aria-hidden={post.data.bannerImage ? 'false' : 'true'}>
+          {post.data.bannerImage ? (
+            <img
+              src={post.data.bannerImage}
+              alt={`Banner image for ${post.data.title}`}
+              class="blog-hero__image"
+              loading="eager"
+            />
+          ) : (
+            <div class="blog-hero__image blog-hero__image--placeholder"></div>
+          )}
+        </div>
       </div>
-    </article>
+    </section>
+
+    <section class="blog-reading">
+      <div class="section-inner blog-reading__inner">
+        <article class="blog-reading__article">
+          <div class="blog-post__content">
+            <Content />
+          </div>
+        </article>
+
+        <aside class="blog-reading__rail" aria-label="Blog sidebar">
+          {hasToc && (
+            <nav class="blog-reading__toc" aria-label="Table of contents">
+              <h2>Table of Contents</h2>
+              <ul role="list">
+                {tocHeadings.map((heading) => (
+                  <li class:list={{ 'blog-reading__toc-item--nested': heading.depth === 3 }}>
+                    <a href={`#${heading.slug}`}>{heading.text}</a>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          )}
+
+          <div class="blog-reading__card">
+            <p class="blog-reading__brand">TYPE</p>
+            <h2>Inclusive, Co-Designed Communication Research</h2>
+            <ul role="list">
+              <li>Co-designed with nonspeaking autistic individuals and caregivers</li>
+              <li>Accessible typing support with multimodal feedback</li>
+              <li>Research-backed prototype with real-world collaboration</li>
+              <li>Focus on clarity, independence, and inclusive outcomes</li>
+            </ul>
+            <a class="blog-reading__cta" href="/">Visit TYPE Project</a>
+          </div>
+        </aside>
+      </div>
+    </section>
   </main>
 </Layout>
 
 <style>
-  .blog-post {
-    padding-block: var(--space-xl);
-    max-width: 47.5rem;
+  .blog-hero {
+    /* background: #121418; */
+    color: var(--color-text);
+    padding: clamp(1.6rem, 4vw, 3.2rem) 0 clamp(2rem, 6vw, 4.4rem);
   }
 
-  .blog-post__back {
+  .blog-hero__inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(18rem, 30rem);
+    gap: clamp(1.25rem, 4vw, 3rem);
+    align-items: center;
+    max-width: 74rem;
+    margin: 0 auto;
+  }
+
+  .blog-hero__copy {
+    max-width: 40rem;
+  }
+
+  .blog-hero__crumbs {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--color-text-muted);
+    font-size: 0.85rem;
     margin-bottom: 1rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
-  .blog-post__back a {
+  .blog-hero__crumbs a {
     color: var(--color-primary);
     text-decoration: none;
   }
 
-  .blog-post__back a:hover,
-  .blog-post__back a:focus-visible {
-    text-decoration: underline;
+  .blog-hero__copy h1 {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    line-height: 1.08;
+    letter-spacing: -0.03em;
+    margin-bottom: 1rem;
+    color: var(--color-text);
   }
 
-  .blog-post__header {
+  .blog-hero__dek {
+    color: var(--color-text-muted);
+    font-size: clamp(1rem, 2vw, 1.28rem);
+    line-height: 1.55;
+    max-width: 36rem;
     margin-bottom: 1.5rem;
   }
 
-  .blog-post__meta {
+  .blog-hero__author {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin-bottom: 0.8rem;
+  }
+
+  .blog-hero__avatar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.05rem;
+    height: 2.05rem;
+    border-radius: 999rem;
+    background: linear-gradient(145deg, var(--color-primary) 0%, var(--color-primary-dk) 100%);
+    color: #161616;
+    font-weight: 700;
+    font-size: 0.95rem;
+  }
+
+  .blog-hero__author p {
+    display: grid;
+    gap: 0.1rem;
+    line-height: 1.2;
+  }
+
+  .blog-hero__author strong {
+    font-size: 1.02rem;
+    color: var(--color-text);
+  }
+
+  .blog-hero__author span {
+    color: var(--color-text-muted);
+    font-size: 0.88rem;
+  }
+
+  .blog-hero__updated {
     display: flex;
     flex-wrap: wrap;
     gap: 0.5rem;
     color: var(--color-text-muted);
-    margin-bottom: 0.5rem;
+    font-size: 0.88rem;
   }
 
-  .blog-post__header h1 {
-    font-size: clamp(2rem, 5vw, 2.8rem);
+  .blog-hero__media {
+    width: 100%;
+  }
+
+  .blog-hero__image {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    border-radius: 0.55rem;
+    border: 0.0625rem solid #293140;
+    background: #0d1016;
+    box-shadow: 0 1.25rem 2.25rem rgba(0, 0, 0, 0.3);
+  }
+
+  .blog-hero__image--placeholder {
+    background: linear-gradient(135deg, #1e2735 0%, #131922 100%);
+    min-height: 14rem;
+  }
+
+  .blog-reading {
+    background: #e8eaee;
+    color: #171d26;
+    padding: clamp(1.4rem, 4vw, 2.8rem) 0 clamp(2.2rem, 6vw, 4rem);
+  }
+
+  .blog-reading__inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(15rem, 18rem);
+    gap: clamp(1.2rem, 4vw, 3rem);
+    max-width: 74rem;
+    margin: 0 auto;
+    align-items: start;
+  }
+
+  .blog-reading__article {
+    max-width: 46rem;
+  }
+
+  .blog-reading__rail {
+    position: sticky;
+    top: 1rem;
+    display: grid;
+    gap: 0.9rem;
+  }
+
+  .blog-reading__toc {
+    background: #ffffff;
+    border: 0.0625rem solid #c5cdda;
+    border-radius: 0.45rem;
+    padding: 0.95rem;
+  }
+
+  .blog-reading__toc h2 {
+    font-size: 1.08rem;
     line-height: 1.2;
+    margin-bottom: 0.7rem;
+    color: #181818;
+  }
+
+  .blog-reading__toc ul {
+    list-style: none;
+    display: grid;
+    gap: 0.45rem;
+  }
+
+  .blog-reading__toc a {
+    display: inline-block;
+    color: #2b2b2b;
+    text-decoration: none;
+    font-size: 0.9rem;
+    line-height: 1.35;
+  }
+
+  .blog-reading__toc a:hover,
+  .blog-reading__toc a:focus-visible {
+    color: #8a7f00;
+    text-decoration: underline;
+  }
+
+  .blog-reading__toc-item--nested {
+    padding-left: 0.7rem;
+    border-left: 0.125rem solid #cad2de;
+  }
+
+  .blog-reading__card {
+    background: #15171d;
+    color: #eef2f7;
+    border-radius: 0.45rem;
+    border: 0.0625rem solid #2a3140;
+    padding: 1.15rem;
+  }
+
+  .blog-reading__brand {
+    color: var(--color-primary);
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    font-size: 0.88rem;
+    margin-bottom: 0.8rem;
+  }
+
+  .blog-reading__card h2 {
+    font-size: 1.36rem;
+    line-height: 1.2;
+    margin-bottom: 0.85rem;
+  }
+
+  .blog-reading__card ul {
+    display: grid;
+    gap: 0.55rem;
+    padding-left: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .blog-reading__card li {
+    color: #c7cfdb;
+    font-size: 0.93rem;
+    line-height: 1.45;
+  }
+
+  .blog-reading__cta {
+    display: inline-flex;
+    justify-content: center;
+    width: 100%;
+    border-radius: 0.35rem;
+    background: var(--color-primary);
+    color: #161616;
+    text-decoration: none;
+    font-weight: 700;
+    padding: 0.6rem 0.85rem;
+  }
+
+  .blog-reading__cta:hover,
+  .blog-reading__cta:focus-visible {
+    background: var(--color-primary-dk);
+    text-decoration: none;
   }
 
   .blog-post__content :global(h2) {
     margin-top: 1.75rem;
-    margin-bottom: 0.75rem;
-    font-size: 1.4rem;
+    margin-bottom: 0.7rem;
+    font-size: clamp(1.3rem, 2vw, 1.75rem);
+    line-height: 1.2;
+    color: #171717;
+    scroll-margin-top: 1rem;
+  }
+
+  .blog-post__content :global(h3) {
+    scroll-margin-top: 1rem;
   }
 
   .blog-post__content :global(p),
   .blog-post__content :global(ul),
   .blog-post__content :global(ol) {
-    margin-bottom: 0.95rem;
-    line-height: 1.7;
-    color: var(--color-text);
+    margin-bottom: 0.92rem;
+    line-height: 1.65;
+    color: #2b2b2b;
+    font-size: 1.02rem;
+  }
+
+  .blog-post__content :global(a) {
+    color: #8a7f00;
+    text-decoration: underline;
+    text-underline-offset: 0.14em;
+    text-decoration-thickness: 0.08em;
+    font-weight: 600;
+    word-break: break-word;
+  }
+
+  .blog-post__content :global(a:hover),
+  .blog-post__content :global(a:focus-visible) {
+    color: #6f6600;
+    text-decoration-thickness: 0.12em;
+  }
+
+  .blog-post__content :global(a[href^='http'])::after {
+    content: ' ↗';
+    font-size: 0.85em;
+  }
+
+  .blog-post__content :global(strong) {
+    color: #111111;
+  }
+
+  .blog-post__content :global(ul),
+  .blog-post__content :global(ol) {
+    padding-left: 1.2rem;
+  }
+
+  .blog-post__content :global(hr) {
+    border: 0;
+    border-top: 0.0625rem solid #c6ceda;
+    margin: 1.45rem 0;
+  }
+
+  .blog-post__content :global(img),
+  .blog-post__content :global(iframe),
+  .blog-post__content :global(video) {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    margin: 1.15rem 0;
+    border-radius: 0.5rem;
+    border: 0.0625rem solid #c6ceda;
+    background: #dfe5ef;
+  }
+
+  .blog-post__content :global(iframe) {
+    min-height: clamp(14rem, 45vw, 30rem);
+    aspect-ratio: 16 / 9;
+  }
+
+  .blog-post__content :global(figure) {
+    margin: 1.15rem 0;
+  }
+
+  .blog-post__content :global(figcaption) {
+    margin-top: 0.5rem;
+    color: #5c6675;
+    font-size: 0.9rem;
+  }
+
+  .blog-post__content :global(table) {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.15rem 0;
+    overflow: hidden;
+    border: 0.0625rem solid #c6ceda;
+    background: #f3f6fb;
+  }
+
+  .blog-post__content :global(th),
+  .blog-post__content :global(td) {
+    padding: 0.6rem 0.72rem;
+    border-bottom: 0.0625rem solid #c6ceda;
+    text-align: left;
+    color: #1e2631;
+  }
+
+  @media (max-width: 64rem) {
+    .blog-hero__inner,
+    .blog-reading__inner {
+      grid-template-columns: 1fr;
+      max-width: 44rem;
+      margin: 0 auto;
+    }
+
+    .blog-reading__rail {
+      position: static;
+    }
+
+    .blog-reading__article {
+      max-width: none;
+    }
+
+    .blog-hero__image {
+      max-width: 38rem;
+      margin: 0 auto;
+    }
+  }
+
+  @media (max-width: 32rem) {
+    .blog-hero__copy h1 {
+      letter-spacing: -0.02em;
+    }
+
+    .blog-hero__crumbs {
+      font-size: 0.78rem;
+    }
+
+    .blog-reading__card h2 {
+      font-size: 1.18rem;
+    }
   }
 </style>
