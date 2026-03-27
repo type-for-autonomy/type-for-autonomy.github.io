@@ -73,6 +73,19 @@ const hasToc = tocHeadings.length > 0;
     <section class="blog-reading">
       <div class="section-inner blog-reading__inner">
         <article class="blog-reading__article">
+          {hasToc && (
+            <nav class="blog-reading__toc blog-reading__toc--mobile" aria-label="Table of contents">
+              <h2>Table of Contents</h2>
+              <ul role="list">
+                {tocHeadings.map((heading) => (
+                  <li class:list={{ 'blog-reading__toc-item--nested': heading.depth === 3 }}>
+                    <a href={`#${heading.slug}`}>{heading.text}</a>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          )}
+
           <div class="blog-post__content">
             <Content />
           </div>
@@ -80,7 +93,7 @@ const hasToc = tocHeadings.length > 0;
 
         <aside class="blog-reading__rail" aria-label="Blog sidebar">
           {hasToc && (
-            <nav class="blog-reading__toc" aria-label="Table of contents">
+            <nav class="blog-reading__toc blog-reading__toc--desktop" aria-label="Table of contents">
               <h2>Table of Contents</h2>
               <ul role="list">
                 {tocHeadings.map((heading) => (
@@ -260,6 +273,11 @@ const hasToc = tocHeadings.length > 0;
     border: 0.0625rem solid #c5cdda;
     border-radius: 0.45rem;
     padding: 0.95rem;
+  }
+
+  .blog-reading__toc--mobile {
+    display: none;
+    margin-bottom: 1rem;
   }
 
   .blog-reading__toc h2 {
@@ -458,6 +476,14 @@ const hasToc = tocHeadings.length > 0;
 
     .blog-reading__rail {
       position: static;
+    }
+
+    .blog-reading__toc--mobile {
+      display: block;
+    }
+
+    .blog-reading__toc--desktop {
+      display: none;
     }
 
     .blog-reading__article {
