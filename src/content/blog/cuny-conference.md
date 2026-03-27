@@ -18,11 +18,6 @@ The City University of New York (CUNY) Neurodiversity Conference 2026 brings tog
 Our project, *Co-Designed Adaptive Typing Training System for Nonspeaking Autistic individuals*, focuses on building an accessible training platform.
 
 
-<video width="100%" autoplay muted loop controls>
-  <source src="/videos/type.mp4" type="video/mp4">
-</video>
-
-
 ## Where We Are?
 
 We are currently in the **prototype and integration stage**, where we have developed:
