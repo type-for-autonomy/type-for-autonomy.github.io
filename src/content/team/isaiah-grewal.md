@@ -3,9 +3,9 @@ name: "Isaiah Grewal"
 role: "Co-Design Partner"
 
 order: 11
-email: "isaiah.grewal@stonybrook.edu"
-links:
-  email: "mailto:isaiah.grewal@stonybrook.edu"
+# email: "isaiah.grewal@stonybrook.edu"
+# links:
+#   email: "mailto:isaiah.grewal@stonybrook.edu"
 image: "/assets/team/isaiah-grewal.png"
 location: "Ontario, Canada"
 affiliation: "Stony Brook University"

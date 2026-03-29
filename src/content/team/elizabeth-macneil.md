@@ -3,9 +3,9 @@ name: "Elizabeth MacNeil"
 role: "OT and Co-Design Partner"
 
 order: 8
-email: "elizabeth.macneil99@gmail.com"
-links:
-  email: "mailto:elizabeth.macneil99@gmail.com"
+# email: "elizabeth.macneil99@gmail.com"
+# links:
+#   email: "mailto:elizabeth.macneil99@gmail.com"
 image: "/assets/team/elizabeth-macneil.png"
 location: ""
 affiliation: ""

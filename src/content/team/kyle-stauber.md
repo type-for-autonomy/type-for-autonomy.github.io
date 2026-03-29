@@ -3,9 +3,9 @@ name: "Kyle Stauber"
 role: "Co-Design Partner"
 
 order: 12
-email: "ohky6068@gmail.com"
-links:
-  email: "mailto:ohky6068@gmail.com"
+# email: "ohky6068@gmail.com"
+# links:
+#   email: "mailto:ohky6068@gmail.com"
 image: "/assets/team/kyle-stauber.png"
 location: "Ohio, USA"
 research_interests:

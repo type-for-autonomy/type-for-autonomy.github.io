@@ -3,9 +3,9 @@ name: "Graciela Lotharius"
 role: "Co-Design Partner"
 
 order: 9
-email: "slotharius@gmail.com"
-links:
-  email: "mailto:slotharius@gmail.com"
+# email: "slotharius@gmail.com"
+# links:
+#   email: "mailto:slotharius@gmail.com"
 image: "/assets/team/graciela-lotharius.png"
 location: "Georgia, USA"
 research_interests:

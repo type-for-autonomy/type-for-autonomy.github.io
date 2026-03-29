@@ -3,9 +3,9 @@ name: "Grant Blasko"
 role: "Co-Design Partner"
 
 order: 10
-email: "grantblasko@gmail.com"
-links:
-  email: "mailto:grantblasko@gmail.com"
+# email: "grantblasko@gmail.com"
+# links:
+#   email: "mailto:grantblasko@gmail.com"
 image: "/assets/team/grant-blasko.png"
 location: "Washington, USA"
 affiliation: "University of Washington"

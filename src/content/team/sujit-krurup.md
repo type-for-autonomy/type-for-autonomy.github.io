@@ -3,9 +3,9 @@ name: "Sujit Kurup"
 role: "Co-Design Partner"
 
 order: 14
-email: "sujitkurup09@gmail.com"
-links:
-  email: "mailto:sujitkurup09@gmail.com"
+# email: "sujitkurup09@gmail.com"
+# links:
+#   email: "mailto:sujitkurup09@gmail.com"
 image: "/assets/team/sujit-kurup.png"
 location: "USA"
 research_interests:

@@ -3,9 +3,9 @@ name: "Lisa Vallado"
 role: "Co-Design Partner"
 
 order: 13
-email: "leilasilva@aol.com"
-links:
-  email: "mailto:leilasilva@aol.com"
+# email: "leilasilva@aol.com"
+# links:
+#   email: "mailto:leilasilva@aol.com"
 image: "/assets/team/lisa-vallado.png"
 location: "Maryland, USA"
 research_interests:

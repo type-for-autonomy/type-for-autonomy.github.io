@@ -3,9 +3,9 @@ name: "Chandra Lebenhagen"
 role: "Autism Specialist and Co-Design Partner"
 
 order: 7
-email: "Chandra@includingautism.ca"
-links:
-  email: "mailto:Chandra@includingautism.ca"
+# email: "Chandra@includingautism.ca"
+# links:
+#   email: "mailto:Chandra@includingautism.ca"
 image: "/assets/team/chandra-lebenhagen.png"
 location: "Calgary, Alberta, Canada"
 affiliation: "Including Autism"
