@@ -235,7 +235,7 @@ const isContact = pathname === '/contact';
   }
   .logo-text {
     font-weight: 700;
-    font-size: 1.2rem;
+    font-size: var(--font-size-xl);
     letter-spacing: 0.08em;
   }
 
@@ -250,7 +250,7 @@ const isContact = pathname === '/contact';
     display: block;
     padding: 0.4rem 0.75rem;
     border-radius: var(--radius-sm);
-    font-size: 0.95rem;
+    font-size: var(--font-size-sm);
     font-weight: 500;
     color: var(--color-text);
     text-decoration: none;
@@ -317,6 +317,6 @@ const isContact = pathname === '/contact';
       gap: 0.25rem;
     }
     .nav-links.open { display: flex; }
-    .nav-links a { font-size: 1rem; padding: 0.6rem 0.75rem; }
+    .nav-links a { font-size: var(--font-size-md); padding: 0.6rem 0.75rem; }
   }
 </style>

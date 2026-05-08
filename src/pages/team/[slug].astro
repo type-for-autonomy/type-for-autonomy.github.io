@@ -1,5 +1,5 @@
 ---
-import { getCollection, getEntry } from "astro:content";
+import { getCollection } from "astro:content";
 import Layout from "@/layouts/Layout.astro"
 
 export async function getStaticPaths() {
@@ -10,18 +10,14 @@ export async function getStaticPaths() {
   }));
 }
 
-const paramsSlug = Astro.params.slug;
-const member = Astro.props.member ?? (paramsSlug ? await getEntry('team', paramsSlug) : undefined);
-
-if (!member) {
-  return Astro.redirect('/team');
-}
-
+const { member } = Astro.props;
 const { Content } = await member.render();
+const hasText = (value?: string) => Boolean(value?.trim());
+
 const links = member.data.links ?? {};
-const linkEntries = Object.entries(links).filter(
-  (entry): entry is [string, string] => typeof entry[1] === 'string' && entry[1].trim().length > 0
-);
+for (let item in links) {
+  console.log(`Link key: ${item}, value: ${links[item]}`); // Debugging log to check each link key and value
+}
 
 
 ---
@@ -40,15 +36,15 @@ const linkEntries = Object.entries(links).filter(
         <div class="team-member__header-info">
           <h1>{member.data.name}</h1>
           <p class="team-member__role">{member.data.role}</p> 
-          {linkEntries.length > 0 && (
+          {Object.keys(links).length > 0 && (
             <div class="team-member__connect" aria-label="Member contact and social links">
-              {linkEntries.map(([key, url]) => 
+              {Object.entries(links).map(item => 
                 <a
-                  href={url}
+                  href={item[1]}
                   class="team-member__connect-link"
                   target={ "_blank"}
                 >
-                  {key.replace(/[-_]/g, ' ').replace(/\b\w/g, c => c.toUpperCase())}
+                  {item[0].replace(/[-_]/g, ' ').replace(/\b\w/g, c => c.toUpperCase())}
                 </a>
               )}
             </div>
@@ -126,14 +122,14 @@ const linkEntries = Object.entries(links).filter(
   }
 
   .team-member__header-info h1 {
-    font-size: clamp(2rem, 3.6vw, 2.6rem);
+    font-size: var(--font-size-2xl);
     font-weight: 800;
     line-height: 1.1;
     margin: 0;
   }
 
   .team-member__role {
-    font-size: 1.06rem;
+    font-size: var(--font-size);
     color: var(--color-text-muted);
     font-weight: 500;
     letter-spacing: 0;
@@ -143,7 +139,7 @@ const linkEntries = Object.entries(links).filter(
   .team-member__email-link {
     color: var(--color-text-muted);
     text-decoration: none;
-    font-size: 0.92rem;
+    font-size: var(--font-size);
     word-break: break-all;
   }
 
@@ -168,7 +164,7 @@ const linkEntries = Object.entries(links).filter(
   .team-member__connect-link {
     text-decoration: none;
     color: var(--color-text);
-    font-size: 0.82rem;
+    font-size: var(--font-size-sm);
     font-weight: 600;
     letter-spacing: 0.01em;
     padding: 0.28rem 0.62rem;
@@ -189,7 +185,7 @@ const linkEntries = Object.entries(links).filter(
   }
 
   .team-member__intro {
-    font-size: 1.2rem;
+    font-size: var(--font-size);
     line-height: 1.8;
     color: var(--color-text);
     margin: 0;
@@ -203,7 +199,7 @@ const linkEntries = Object.entries(links).filter(
   }
 
   .team-member__content :global(h2) {
-    font-size: 1.35rem;
+    font-size: var(--font-size-xl);
     color: var(--color-text);
     font-weight: 700;
     letter-spacing: 0;
@@ -215,7 +211,7 @@ const linkEntries = Object.entries(links).filter(
   }
 
   .team-member__content :global(p) {
-    font-size: 1.08rem;
+    font-size: var(--font-size);
     line-height: 1.85;
     color: var(--color-text);
     margin: 0;
@@ -239,7 +235,9 @@ const linkEntries = Object.entries(links).filter(
   @media (max-width: 48rem) {
     
     .team-member {
-      padding: clamp(1.5rem, 4vw, 2.5rem) 0;
+      padding: clamp(5rem, 10vw, 6rem) 0;
+      margin-top: 2rem;
+      
       
     }
 
@@ -267,7 +265,7 @@ const linkEntries = Object.entries(links).filter(
   @media (max-width: 28rem) {
     
     .team-member {
-      padding: 1.5rem 0;
+      padding: 4rem 0;
     }
 
     .team-member__back {
@@ -310,13 +308,6 @@ const linkEntries = Object.entries(links).filter(
 
     .team-member__content :global(p) {
       font-size: 1rem;
-    }
-  }
-
-  /* Ensure there's space on small screens so fixed navbar doesn't cover profile image */
-  @media (max-width: 45em) {
-    .team-member {
-      padding-top: calc(var(--navbar-height) + 0.75rem);
     }
   }
 </style>
