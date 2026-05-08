@@ -22,7 +22,13 @@
   --font-body:   'Inter', system-ui, sans-serif;
 
   /* Navbar */
-  --navbar-height:  10vh;
+  --navbar-height: 6vh;
+
+  /* Responsive breakpoints */
+  /* Mobile: 28rem (448px) — small phones */
+  /* Tablet: 48rem (768px) — iPad, medium tablets */
+  /* Large tablet: 64rem (1024px) — iPad Pro, large tablets */
+  /* Desktop: 74rem+ (1184px+) — desktops and large screens */
 
   /* Spacing */
   --space-xs:   0.5rem;
@@ -124,6 +130,13 @@ a:focus-visible {
   max-width: none;
   margin: 0 auto;
   padding: 0 clamp(1.25rem, 4vw, 2.25rem);
+}
+
+/* Ensure main content is offset below fixed navbar on non-mobile screens */
+@media (min-width: 45em) {
+  .main {
+    padding-top: var(--navbar-height);
+  }
 }
 .btn {
   display: inline-flex;
@@ -238,6 +251,27 @@ a:focus-visible {
   }
 }
 
+/* Large Tablet / iPad Pro: 64rem (1024px) */
+@media (min-width: 49rem) and (max-width: 81rem) {
+  html {
+    font-size: 100%;
+  }
+
+  .section-inner {
+    padding: 0 clamp(1.5rem, 4vw, 2rem);
+  }
+
+  .btn {
+    min-height: 2.8rem;
+    padding: 0.7rem clamp(1.4rem, 3vw, 1.8rem);
+    font-size: clamp(1rem, 1.8vw, 1.15rem);
+  }
+
+  .overlay__card {
+    width: min(85vw, 45rem);
+  }
+}
+
 /* Mobile: 28rem (448px) */
 @media (max-width: 28rem) {
   html {
@@ -300,24 +334,48 @@ a:focus-visible {
 }
 
 
-/*  */
-.global-height{
-  height: 100vh;
+/* Full-screen section helper used by the landing-page panels */
+.global-height {
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  overflow: hidden;
-  padding-top: 10vh !important;
+  overflow: visible;
+  padding-top: var(--navbar-height) !important;
+  padding-bottom: clamp(1.5rem, 4vw, 3rem);
+}
+
+@media (max-width: 48rem) {
+  .global-height {
+    min-height: 100svh;
+    height: 100svh;
+    overflow: hidden;
+    padding-top: var(--navbar-height) !important;
+    padding-bottom: clamp(0.75rem, 2vh, 1.25rem);
+  }
 }
 
 @media (max-width: 28rem) {
   .global-height {
-    padding-top: 0 !important;
+    padding-top: calc(var(--navbar-height) + 0.25rem) !important;
+    padding-bottom: 0.75rem;
   }
 }
 
 .nav-height{
-  height: 10vh;
+  height: var(--navbar-height);
+}
+
+/* Responsive navbar height: slightly larger on very small screens to accommodate touch targets */
+@media (max-width: 45em) {
+  :root {
+    --navbar-height: 7.5vh;
+  }
+}
+
+/* Mobile screens: ensure main isn't pushed down by navbar */
+@media (max-width: 45em) {
+  .main { padding-top: 0; }
 }
 

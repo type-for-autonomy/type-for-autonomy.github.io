@@ -4,6 +4,7 @@ const pathname = Astro.url.pathname;
 const isHome = pathname === '/';
 const isTeam = pathname === '/team' || pathname.startsWith('/team/');
 const isBlog = pathname === '/blog' || pathname.startsWith('/blog/');
+const isContact = pathname === '/contact';
 ---
 <header class:list={['header', 'nav-height']} role="banner">
   <nav class="nav section-inner" aria-label="Main navigation">
@@ -33,6 +34,7 @@ const isBlog = pathname === '/blog' || pathname.startsWith('/blog/');
       <li><a href="#partners" class="section-link">Partners</a></li> -->
       <li><a href="/team" class:list={['page-link', {active: isTeam}]}>Team</a></li>
       <li><a href="/blog" class:list={['page-link', {active: isBlog}]}>Updates</a></li>
+      <li><a href="/contact" class:list={['page-link', {active: isContact}]}>Contact</a></li>
       <!-- <li>
         <a href="#footer-involved" class="nav-cta">Get Involved</a>
       </li> -->
@@ -187,7 +189,8 @@ const isBlog = pathname === '/blog' || pathname.startsWith('/blog/');
 </script>
 
 <style>  .header {
-    display: block;
+    display: flex;
+    align-items: center;
     position: fixed;
     top: 0;
     left: 0;
@@ -211,8 +214,9 @@ const isBlog = pathname === '/blog' || pathname.startsWith('/blog/');
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding-block: 1rem;
-    gap: 1.5rem;
+    padding-block: 0.5rem;
+    gap: 1rem;
+    width: 100%;
   }
 
   .logo {

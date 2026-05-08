@@ -1,3 +1,4 @@
+
 ---
 import { getCollection, render } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
@@ -10,8 +11,17 @@ export async function getStaticPaths() {
     props: { post },
   }));
 }
+const paramsSlug = Astro.params.slug;
+const propPost = Astro.props.post;
+const post = propPost
+  ?? (paramsSlug
+    ? (await getCollection('blog')).find((entry) => entry.id.replace(/\.md$/, '') === paramsSlug)
+    : undefined);
 
-const { post } = Astro.props;
+if (!post) {
+  return Astro.redirect('/blog');
+}
+
 const { Content, headings } = await render(post);
 const publishedDate = post.data.date ?? post.data.pubDate ?? new Date(0);
 const words = post.body.split(/\s+/).filter(Boolean).length;
@@ -371,11 +381,11 @@ const hasToc = tocHeadings.length > 0;
     font-size: clamp(1.3rem, 2vw, 1.75rem);
     line-height: 1.2;
     color: #171717;
-    scroll-margin-top: 1rem;
+    scroll-margin-top: calc(var(--navbar-height) + 1rem);
   }
 
   .blog-post__content :global(h3) {
-    scroll-margin-top: 1rem;
+    scroll-margin-top: calc(var(--navbar-height) + 0.75rem);
   }
 
   .blog-post__content :global(p),

@@ -1,5 +1,5 @@
 ---
-import { getCollection } from "astro:content";
+import { getCollection, getEntry } from "astro:content";
 import Layout from "@/layouts/Layout.astro"
 
 export async function getStaticPaths() {
@@ -10,14 +10,18 @@ export async function getStaticPaths() {
   }));
 }
 
-const { member } = Astro.props;
-const { Content } = await member.render();
-const hasText = (value?: string) => Boolean(value?.trim());
+const paramsSlug = Astro.params.slug;
+const member = Astro.props.member ?? (paramsSlug ? await getEntry('team', paramsSlug) : undefined);
 
-const links = member.data.links ?? {};
-for (let item in links) {
-  console.log(`Link key: ${item}, value: ${links[item]}`); // Debugging log to check each link key and value
+if (!member) {
+  return Astro.redirect('/team');
 }
+
+const { Content } = await member.render();
+const links = member.data.links ?? {};
+const linkEntries = Object.entries(links).filter(
+  (entry): entry is [string, string] => typeof entry[1] === 'string' && entry[1].trim().length > 0
+);
 
 
 ---
@@ -36,15 +40,15 @@ for (let item in links) {
         <div class="team-member__header-info">
           <h1>{member.data.name}</h1>
           <p class="team-member__role">{member.data.role}</p> 
-          {Object.keys(links).length > 0 && (
+          {linkEntries.length > 0 && (
             <div class="team-member__connect" aria-label="Member contact and social links">
-              {Object.entries(links).map(item => 
+              {linkEntries.map(([key, url]) => 
                 <a
-                  href={item[1]}
+                  href={url}
                   class="team-member__connect-link"
                   target={ "_blank"}
                 >
-                  {item[0].replace(/[-_]/g, ' ').replace(/\b\w/g, c => c.toUpperCase())}
+                  {key.replace(/[-_]/g, ' ').replace(/\b\w/g, c => c.toUpperCase())}
                 </a>
               )}
             </div>
@@ -306,6 +310,13 @@ for (let item in links) {
 
     .team-member__content :global(p) {
       font-size: 1rem;
+    }
+  }
+
+  /* Ensure there's space on small screens so fixed navbar doesn't cover profile image */
+  @media (max-width: 45em) {
+    .team-member {
+      padding-top: calc(var(--navbar-height) + 0.75rem);
     }
   }
 </style>

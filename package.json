@@ -9,7 +9,9 @@
     "check": "astro check"
   },
   "dependencies": {
-    "astro": "^5.1.1"
+    "astro": "^5.1.1",
+    "firebase": "^12.13.0",
+    "firebase-admin": "^13.9.0"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.6",

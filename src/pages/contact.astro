@@ -1,0 +1,306 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Stay Connected">
+  <main class="container">
+    <section class="contact">
+      <div class="contact__header">
+        <p class="contact__eyebrow">Join The TYPE Community</p>
+        <h1>Stay Connected</h1>
+        <p class="contact__intro">If you are interested in hearing about future updates or participating in future user studies, please leave your contact information below.</p>
+      </div>
+
+      <div class="contact__panel">
+        <form id="contact-form" class="contact-form" aria-label="Contact form">
+          <div class="contact-form__row">
+            <label>
+              <span class="label-text">Name</span>
+              <input type="text" name="name" required />
+            </label>
+
+            <label>
+              <span class="label-text">Email</span>
+              <input type="email" name="email" required />
+            </label>
+          </div>
+
+          <fieldset class="interests">
+            <legend>I am interested in:</legend>
+            <div class="interest-grid">
+              <label><input type="checkbox" name="interests" value="studies" /> Future user studies</label>
+              <label><input type="checkbox" name="interests" value="updates" /> Project updates</label>
+              <label><input type="checkbox" name="interests" value="testing" /> Testing new features</label>
+              <label><input type="checkbox" name="interests" value="learn" /> Learning more about the system</label>
+            </div>
+          </fieldset>
+
+          <label>
+            <span class="label-text">Additional comments (optional)</span>
+            <textarea name="comments" rows="5"></textarea>
+          </label>
+
+          <label class="agree">
+            <input type="checkbox" name="agree" required />
+            <span>I agree to be contacted about this project.</span>
+          </label>
+
+          <div class="form-actions">
+            <button type="submit" class="btn">Submit</button>
+          </div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <div id="contact-loading" class="popup" role="status" aria-live="polite" hidden>
+    <div class="popup__panel popup__panel--loading">
+      <p>Submitting your data...</p>
+    </div>
+  </div>
+
+  <div id="contact-popup" class="popup" role="dialog" aria-modal="true" aria-labelledby="contact-popup-title" hidden>
+    <div id="contact-popup-panel" class="popup__panel">
+      <h2 id="contact-popup-title">Thanks!</h2>
+      <p id="contact-popup-message">Your data has been collected successfully.</p>
+      <button id="contact-popup-close" type="button" class="btn">Close</button>
+    </div>
+  </div>
+
+  <script is:inline type="module">
+    const form = document.getElementById('contact-form');
+    const loadingOverlay = document.getElementById('contact-loading');
+    const submitButton = form.querySelector('button[type="submit"]'); // Get the submit button
+    const popup = document.getElementById('contact-popup');
+    const popupPanel = document.getElementById('contact-popup-panel');
+    const popupTitle = document.getElementById('contact-popup-title');
+    const popupMessage = document.getElementById('contact-popup-message');
+    const popupClose = document.getElementById('contact-popup-close');
+    const submitButtonDefaultText = submitButton.textContent;
+
+    const setLoading = (isLoading) => {
+      submitButton.disabled = isLoading;
+      submitButton.dataset.loading = isLoading ? 'true' : 'false';
+      submitButton.textContent = isLoading ? 'Submitting...' : submitButtonDefaultText;
+      loadingOverlay.hidden = !isLoading;
+    };
+
+    const showPopup = (title, message, variant) => {
+      popupTitle.textContent = title;
+      popupMessage.textContent = message;
+      popupPanel.dataset.variant = variant;
+      popup.hidden = false;
+    };
+
+    const hidePopup = () => {
+      popup.hidden = true;
+    };
+
+    popupClose.addEventListener('click', hidePopup);
+    popup.addEventListener('click', (event) => {
+      if (event.target === popup) {
+        hidePopup();
+      }
+    });
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      // Disable button and show loading state while submitting
+      setLoading(true);
+
+      const formData = new FormData(form);
+
+
+      if (!formData.get('agree')) {
+        setLoading(false);
+        showPopup('Submission blocked', 'Please confirm you agree to be contacted before submitting.', 'error');
+        return;
+      }
+
+      try {
+        const response = await fetch('/api/submit-form', { 
+          method: 'POST',
+          body: formData,
+        });
+
+        const responseData = await response.json().catch(() => ({}));
+
+        if (response.ok) {
+          console.log('Contact submission sent to API route.');
+          form.reset();
+          showPopup('Thank you!', responseData.message || 'Your data has been collected successfully.', 'success');
+        } else {
+          console.error('Error from API route:', responseData.message);
+          showPopup('Submission failed', responseData.message || 'There was an error submitting your form. Please try again.', 'error');
+        }
+      } catch (error) {
+        console.error('Network or unexpected error:', error);
+        showPopup('Submission failed', 'An unexpected error occurred. Please check your connection and try again.', 'error');
+      } finally {
+        setLoading(false);
+      }
+    });
+</script>
+
+
+  <style>
+    .contact {
+      max-width: 64rem;
+      margin: 2rem auto;
+      padding: 0 1rem;
+      position: relative;
+    }
+    .contact::before {
+      content: '';
+      position: absolute;
+      top: -1.5rem;
+      right: -1rem;
+      width: 14rem;
+      height: 14rem;
+      border-radius: 999px;
+      background: radial-gradient(circle at center, color-mix(in srgb, var(--color-primary) 35%, transparent), transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+    .contact > * {
+      position: relative;
+      z-index: 1;
+    }
+    .contact__header {
+      margin-bottom: 1.25rem;
+      max-width: 44rem;
+    }
+    .contact__eyebrow {
+      margin-bottom: 0.4rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--color-primary);
+    }
+    .contact h1 {
+      margin-bottom: 0.35rem;
+      line-height: 1.1;
+    }
+    .contact__intro {
+      color: var(--color-muted);
+      margin-bottom: 0;
+      font-size: 1.02rem;
+    }
+    .contact__panel {
+      border: 1px solid color-mix(in srgb, var(--color-border) 70%, #fff);
+      border-radius: 10px;
+      padding: clamp(1rem, 2vw, 1.5rem);
+      background:
+        linear-gradient(180deg, color-mix(in srgb, var(--color-surface) 92%, #fff), var(--color-surface));
+      box-shadow: 0 16px 35px rgba(0, 0, 0, 0.08);
+    }
+    .contact-form {
+      display: grid;
+      gap: 0.95rem;
+    }
+    .contact-form__row {
+      display: grid;
+      gap: 0.95rem;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    label { display: block; }
+    .label-text {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 0.35rem;
+      font-size: 0.95rem;
+    }
+    input[type="text"], input[type="email"], textarea {
+      width: 100%;
+      padding: 0.62rem 0.72rem;
+      border: 1px solid var(--color-border);
+      border-radius: 6px;
+      transition: border-color 180ms ease, box-shadow 180ms ease;
+      background: #fff;
+    }
+    input[type="text"]:focus,
+    input[type="email"]:focus,
+    textarea:focus {
+      outline: none;
+      border-color: color-mix(in srgb, var(--color-primary) 70%, #000);
+      box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-primary) 24%, transparent);
+    }
+    fieldset.interests {
+      border: 1px solid var(--color-border);
+      border-radius: 8px;
+      padding: 0.65rem;
+      margin: 0.25rem 0;
+    }
+    fieldset.interests legend {
+      font-size: 0.92rem;
+      font-weight: 600;
+      padding: 0 0.35rem;
+    }
+    .interest-grid {
+      display: grid;
+      gap: 0.5rem;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    fieldset.interests label {
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      margin: 0;
+      font-size: 0.94rem;
+      padding: 0.2rem 0;
+    }
+    .agree {
+      margin-top: 0.2rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 0.5rem;
+      padding: 0.2rem 0;
+    }
+    .agree input { margin-top: 0.15rem; }
+    .form-actions {
+      margin-top: 0.35rem;
+      display: flex;
+      justify-content: flex-end;
+    }
+    .btn { background: var(--color-primary); color: #000; padding: 0.6rem 1rem; border: none; border-radius: 4px; cursor: pointer; font-weight: 700; }
+    .btn[data-loading="true"] { opacity: 0.8; cursor: wait; }
+    .popup {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.55);
+      display: grid;
+      place-items: center;
+      padding: 1rem;
+      z-index: 999;
+    }
+    .popup[hidden] { display: none !important; }
+    .popup__panel {
+      width: min(30rem, 100%);
+      background: var(--color-surface, #fff);
+      border-radius: 8px;
+      padding: 1rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    }
+    .popup__panel[data-variant="success"] { border-left: 5px solid #16a34a; }
+    .popup__panel[data-variant="error"] { border-left: 5px solid #b91c1c; }
+    .popup__panel--loading {
+      text-align: center;
+      border-left: 5px solid var(--color-primary);
+    }
+    .popup__panel h2 { margin-bottom: 0.5rem; }
+    .popup__panel p { margin-bottom: 1rem; }
+    .popup__panel--loading p { margin-bottom: 0; }
+    @media (max-width: 45em) {
+      /* On small screens, add top spacing so the fixed navbar doesn't overlap the contact form */
+      .contact { padding-top: var(--navbar-height); }
+      .contact::before { width: 10rem; height: 10rem; top: -1rem; right: 0; }
+      .contact__panel { padding: 0.9rem; }
+      .contact-form__row { grid-template-columns: 1fr; gap: 0.75rem; }
+      .interest-grid { grid-template-columns: 1fr; }
+      .form-actions { justify-content: stretch; }
+      .form-actions .btn { width: 100%; }
+    }
+  </style>
+</Layout>
