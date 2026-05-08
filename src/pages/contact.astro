@@ -1,5 +1,14 @@
 ---
 import Layout from '../layouts/Layout.astro';
+
+const firebaseConfig = {
+  apiKey: import.meta.env.PUBLIC_FIREBASE_API_KEY,
+  authDomain: import.meta.env.PUBLIC_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.PUBLIC_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.PUBLIC_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.PUBLIC_FIREBASE_APP_ID,
+}
 ---
 
 <Layout title="Stay Connected">
@@ -67,80 +76,118 @@ import Layout from '../layouts/Layout.astro';
     </div>
   </div>
 
-  <script is:inline type="module">
-    const form = document.getElementById('contact-form');
-    const loadingOverlay = document.getElementById('contact-loading');
-    const submitButton = form.querySelector('button[type="submit"]'); // Get the submit button
-    const popup = document.getElementById('contact-popup');
-    const popupPanel = document.getElementById('contact-popup-panel');
-    const popupTitle = document.getElementById('contact-popup-title');
-    const popupMessage = document.getElementById('contact-popup-message');
-    const popupClose = document.getElementById('contact-popup-close');
-    const submitButtonDefaultText = submitButton.textContent;
+  <script type="module" define:vars={{ firebaseConfig }}>
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+  import {
+    getFirestore,
+    collection,
+    addDoc,
+    serverTimestamp
+  } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-    const setLoading = (isLoading) => {
-      submitButton.disabled = isLoading;
-      submitButton.dataset.loading = isLoading ? 'true' : 'false';
-      submitButton.textContent = isLoading ? 'Submitting...' : submitButtonDefaultText;
-      loadingOverlay.hidden = !isLoading;
-    };
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
 
-    const showPopup = (title, message, variant) => {
-      popupTitle.textContent = title;
-      popupMessage.textContent = message;
-      popupPanel.dataset.variant = variant;
-      popup.hidden = false;
-    };
+  // Form elements
+  const form = document.getElementById('contact-form');
+  const loadingOverlay = document.getElementById('contact-loading');
+  const submitButton = form.querySelector('button[type="submit"]');
 
-    const hidePopup = () => {
-      popup.hidden = true;
-    };
+  const popup = document.getElementById('contact-popup');
+  const popupPanel = document.getElementById('contact-popup-panel');
+  const popupTitle = document.getElementById('contact-popup-title');
+  const popupMessage = document.getElementById('contact-popup-message');
+  const popupClose = document.getElementById('contact-popup-close');
 
-    popupClose.addEventListener('click', hidePopup);
-    popup.addEventListener('click', (event) => {
-      if (event.target === popup) {
-        hidePopup();
-      }
-    });
+  const submitButtonDefaultText = submitButton.textContent;
 
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
+  // Loading state
+  const setLoading = (isLoading) => {
+    submitButton.disabled = isLoading;
+    submitButton.dataset.loading = isLoading ? 'true' : 'false';
+    submitButton.textContent = isLoading
+      ? 'Submitting...'
+      : submitButtonDefaultText;
 
-      // Disable button and show loading state while submitting
-      setLoading(true);
+    loadingOverlay.hidden = !isLoading;
+  };
 
-      const formData = new FormData(form);
+  // Popup helpers
+  const showPopup = (title, message, variant) => {
+    popupTitle.textContent = title;
+    popupMessage.textContent = message;
+    popupPanel.dataset.variant = variant;
+    popup.hidden = false;
+  };
 
+  const hidePopup = () => {
+    popup.hidden = true;
+  };
 
-      if (!formData.get('agree')) {
-        setLoading(false);
-        showPopup('Submission blocked', 'Please confirm you agree to be contacted before submitting.', 'error');
-        return;
-      }
+  popupClose.addEventListener('click', hidePopup);
 
-      try {
-        const response = await fetch('/api/submit-form', { 
-          method: 'POST',
-          body: formData,
-        });
+  popup.addEventListener('click', (event) => {
+    if (event.target === popup) {
+      hidePopup();
+    }
+  });
 
-        const responseData = await response.json().catch(() => ({}));
+  // Form submission
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
 
-        if (response.ok) {
-          console.log('Contact submission sent to API route.');
-          form.reset();
-          showPopup('Thank you!', responseData.message || 'Your data has been collected successfully.', 'success');
-        } else {
-          console.error('Error from API route:', responseData.message);
-          showPopup('Submission failed', responseData.message || 'There was an error submitting your form. Please try again.', 'error');
-        }
-      } catch (error) {
-        console.error('Network or unexpected error:', error);
-        showPopup('Submission failed', 'An unexpected error occurred. Please check your connection and try again.', 'error');
-      } finally {
-        setLoading(false);
-      }
-    });
+    setLoading(true);
+
+    const formData = new FormData(form);
+
+    // Validate consent checkbox
+    if (!formData.get('agree')) {
+      setLoading(false);
+
+      showPopup(
+        'Submission blocked',
+        'Please confirm you agree to be contacted before submitting.',
+        'error'
+      );
+
+      return;
+    }
+
+    try {
+      // Save directly to Firestore
+      await addDoc(collection(db, 'contactSubmissions'), {
+        name: formData.get('name'),
+        email: formData.get('email'),
+        interests: formData.getAll('interests'),
+        comments: formData.get('comments') || '',
+        agreedToContact: true,
+        createdAt: serverTimestamp(),
+      });
+
+      console.log('Contact submission saved to Firestore.');
+
+      form.reset();
+
+      showPopup(
+        'Thank you!',
+        'Your data has been collected successfully.',
+        'success'
+      );
+
+    } catch (error) {
+      console.error('Firestore submission error:', error);
+
+      showPopup(
+        'Submission failed',
+        'There was an error submitting your form. Please try again.',
+        'error'
+      );
+
+    } finally {
+      setLoading(false);
+    }
+  });
 </script>
 
 
