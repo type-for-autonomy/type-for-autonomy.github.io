@@ -1,5 +1,5 @@
 ---
-name: "Isaiah Grewal"
+name: "Isaiah T. Grewal"
 role: "Co-Design Partner"
 
 order: 11
@@ -18,8 +18,12 @@ typing_research_focus:
 description: "Nonspeaking autistic advocate and researcher studying communication and brain function."
 ---
 
-Isaiah Grewal is a nonspeaking autistic advocate, researcher, and writer from Ontario, Canada. After initially being unable to communicate reliably, he learned to use letter boards and keyboards to express himself.
+Isaiah is a Trainee in the Stony Brook Medicine Leadership Education in Neurodevelopmental Disabilities (LEND) Fellowship Program and a Neurodiversity and Disability Specialist at <a href="https://benedlife.com/blogs/news/nonspeaking-autism-my-point-of-view" target="_blank" rel="noopener noreferrer">Bened Life</a>. In addition to TYPE, he works on research teams at the Kennedy Krieger Institute (affiliated with Johns Hopkins Medicine), the University of Toronto, and the Stony Brook Medicine School of Social Welfare.
 
-He is affiliated with Stony Brook University’s LEND program and collaborates on neuroimaging research studying motor activity in nonspeaking autistic individuals.
+He holds an Undergraduate Certificate from Harvard Extension School and appears in the award-winning short film <a href="https://communicationfirst.org/listen/" target="_blank" rel="noopener noreferrer">LISTEN</a>, produced by Communication First.
 
-Grewal is also an advocate for direct representation of nonspeaking individuals and has contributed to projects such as the film *LISTEN*. His writing challenges assumptions about communication and cognition.
+He contributed to:
+- <a href="https://www.amazon.com/Leaders-Around-Autobiographies-Autistics-Communicate/dp/1791505953" target="_blank" rel="noopener noreferrer">Leaders Around Me: Autobiographies of Autistics Who Type, Point, and Spell to Communicate</a>
+- <a href="https://us.jkp.com/products/neurodiversityaffirming-occupational-therapy" target="_blank" rel="noopener noreferrer">Neurodiversity-Affirming Occupational Therapy</a>
+
+He was featured in the <a href="https://magazine.utoronto.ca/research-ideas/health/when-words-wont-cooperate/" target="_blank" rel="noopener noreferrer">University of Toronto Magazine</a> and the <a href="https://socialwelfare.stonybrookmedicine.edu/news/isaiah-grewal-lend-center" target="_blank" rel="noopener noreferrer">News of the Stony Brook University School of Social Welfare</a>.

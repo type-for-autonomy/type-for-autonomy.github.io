@@ -3,9 +3,9 @@ name: "Chandra Lebenhagen"
 role: "Autism Specialist and Co-Design Partner"
 
 order: 7
-# email: "Chandra@includingautism.ca"
-# links:
-#   email: "mailto:Chandra@includingautism.ca"
+email: "Chandra@includingautism.ca"
+links:
+  email: "mailto:Chandra@includingautism.ca"
 image: "/assets/team/chandra-lebenhagen.png"
 location: "Calgary, Alberta, Canada"
 affiliation: "Including Autism"
@@ -19,8 +19,8 @@ typing_research_focus:
 description: "Founder of Including Autism and expert in inclusive education and neurodiversity."
 ---
 
-Dr. Chandra Lebenhagen is the founder and Executive Director of Including Autism. She holds a doctorate in Curriculum and Learning from the University of Calgary and has over 20 years of experience as a teacher, inclusion consultant, and university instructor.
+Dr. Chandra Lebenhagen is the founder and Director of Including Autism, and a leading voice in inclusive education and neurodiversity. She holds a Doctorate in Curriculum and Learning and brings over 20 years of experience as a teacher, inclusion consultant, and university instructor.
 
-She is the author of multiple peer-reviewed publications, including the book *Autism and Inclusive Education: A Guide for Teachers, Practitioners and Parents*.
+She is the author of multiple peer-reviewed publications, including *Autism and Inclusive Education: A Guide for Teachers, Practitioners and Parents*. Her work challenges traditional deficit-based models of autism by advancing interdisciplinary, evidence-informed approaches that translate into meaningful, real-world impact—particularly within classrooms and communities navigating systemic barriers.
 
-Her work focuses on supporting neurodiverse learners in real-world classroom settings using multidisciplinary approaches grounded in critical disability theory and evidence-based practices. Through presentations and hands-on support, she helps educators and communities create inclusive learning environments.
+Through research, design, and collaboration, Dr. Lebenhagen partners with autistic individuals, families, and educators to co-create responsive, equitable learning environments where all learners are supported to meaningfully participate and reach their full potential.
