@@ -1,7 +1,7 @@
 ---
 title: "INSAR 2026 Poster Presentation"
 date: 2026-05-29
-description: "Our poster presentation on an AI-assisted typing system for nonspeaking autistic individuals at INSAR 2026."
+description: "Insights from participatory research on ethical co-design with and for nonspeaking autistic people developing assistive technology for typing support."
 bannerImage: "/assets/insar-banner.png"
 slug: "insar-poster-2026"
 author: "Sajad Sarlaki - Sofya Gektin"
