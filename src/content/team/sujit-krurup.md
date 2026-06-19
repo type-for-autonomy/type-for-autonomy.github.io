@@ -32,6 +32,6 @@ In addition to his research and advocacy, he is also a visual artist with exhibi
     src="https://drive.google.com/file/d/1_kVnHmPSjgW9wa66twDZhlZMDfwJFk1J/preview"
     frameBorder="0"
     scrolling="auto"
-    height="600"
+    height="350"
     width="100%"
 ></iframe>
