@@ -24,6 +24,12 @@ Through her writing, she advocates for greater understanding, inclusion, and rec
 
 ## Selected Works
 
-<a href="https://www.unrestrictedinterest.com/reading/p/what-we-are-by-graciela-lotharius" target="_blank" rel="noopener noreferrer">
-  <img src="/assets/team/graciela-lotharius-what-we-are.webp" alt="What We Are - poems by Graciela Lotharius" style="max-width: 100%; height: auto; border-radius: 0.5rem; margin: 1rem 0;" />
-</a>
+<div style="display: flex; gap: 2rem; align-items: flex-start; margin: 2rem 0;">
+  <a href="https://www.unrestrictedinterest.com/reading/p/what-we-are-by-graciela-lotharius" target="_blank" rel="noopener noreferrer" style="flex-shrink: 0;">
+    <img src="/assets/cover+of+whatweare.webp" alt="What We Are - poems by Graciela Lotharius" style="max-width: 200px; height: auto; border-radius: 0.5rem; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); transition: transform 0.2s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'" />
+  </a>
+  <div style="flex: 1;">
+    <h3 style="margin: 0 0 0.75rem 0; color: var(--color-primary); font-size: 1.2rem;">What We Are</h3>
+    <p style="margin: 0; line-height: 1.7; color: var(--color-text);">A collection of poems by Graciela Lotharius that explores neurodivergent identity, communication, and lived experience through powerful verse. The book challenges societal perceptions and celebrates the unique perspectives of nonspeaking autistic individuals.</p>
+  </div>
+</div>
