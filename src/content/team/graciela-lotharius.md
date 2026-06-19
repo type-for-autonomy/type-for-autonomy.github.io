@@ -24,4 +24,6 @@ Through her writing, she advocates for greater understanding, inclusion, and rec
 
 ## Selected Works
 
-[What We Are](https://www.unrestrictedinterest.com/reading/p/what-we-are-by-graciela-lotharius)
+<a href="https://www.unrestrictedinterest.com/reading/p/what-we-are-by-graciela-lotharius" target="_blank" rel="noopener noreferrer">
+  <img src="/assets/team/graciela-lotharius-what-we-are.webp" alt="What We Are - poems by Graciela Lotharius" style="max-width: 100%; height: auto; border-radius: 0.5rem; margin: 1rem 0;" />
+</a>
