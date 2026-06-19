@@ -25,3 +25,13 @@ Kurup actively collaborates on projects focused on ethical co-design of communic
 technologies and frequently speaks about sensory-motor differences in autism.
 
 In addition to his research and advocacy, he is also a visual artist with exhibited work.
+
+## Selected Works
+
+<iframe
+    src="https://drive.google.com/file/d/1_kVnHmPSjgW9wa66twDZhlZMDfwJFk1J/preview"
+    frameBorder="0"
+    scrolling="auto"
+    height="600"
+    width="100%"
+></iframe>

@@ -21,3 +21,7 @@ Graciela Lotharius is a nonspeaking autistic writer, poet, and advocate based in
 Her work has been featured in publications including *Poetry Northwest* and *The Listening World*, where she shares her experiences to challenge misconceptions about neurodivergence and communication.
 
 Through her writing, she advocates for greater understanding, inclusion, and recognition of diverse communication styles.
+
+## Selected Works
+
+[What We Are](https://www.unrestrictedinterest.com/reading/p/what-we-are-by-graciela-lotharius)

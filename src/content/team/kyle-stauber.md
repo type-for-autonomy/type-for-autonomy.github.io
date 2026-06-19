@@ -22,3 +22,13 @@ Kyle Stauber is a nonspeaking autistic advocate, researcher, and visual artist b
 He is a co-author on research focused on ethical co-design of technology for nonspeaking autistic individuals, emphasizing inclusion of users in the development process.
 
 In addition to research and advocacy, Stauber is a visual artist who has exhibited work in local galleries.
+
+## Selected Works
+
+<iframe
+    src="https://drive.google.com/file/d/18yuppd7QrCdPAUes3MaCSYNhugwRDqR9/preview"
+    frameBorder="0"
+    scrolling="auto"
+    height="600"
+    width="100%"
+></iframe>
