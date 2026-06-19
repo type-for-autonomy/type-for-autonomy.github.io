@@ -17,10 +17,11 @@ typing_research_focus:
 description: "Nonspeaking autistic advocate, researcher, and artist focused on communication and inclusion."
 ---
 
-Sujit Kurup is a nonspeaking autistic advocate, researcher, writer, and visual artist who communicates through typing.
+Sujit Kurup is a nonspeaking autistic advocate, consultant, researcher, poet, writer, and visual artist who communicates through typing.
 
 He serves as a board member of the Autism National Committee and contributes to research on neurodivergent communication and inclusive education. He has co-authored academic work exploring barriers faced by multimodal communicators.
 
-Kurup actively collaborates on projects focused on ethical co-design of communication technologies and frequently speaks about sensory-motor differences in autism.
+Kurup actively collaborates on projects focused on ethical co-design of communication
+technologies and frequently speaks about sensory-motor differences in autism.
 
 In addition to his research and advocacy, he is also a visual artist with exhibited work.
