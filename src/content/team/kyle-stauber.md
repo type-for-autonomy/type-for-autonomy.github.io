@@ -26,7 +26,7 @@ In addition to research and advocacy, Stauber is a visual artist who has exhibit
 ## Selected Works
 
 <iframe
-    src="https://drive.google.com/file/d/18yuppd7QrCdPAUes3MaCSYNhugwRDqR9/preview"
+    src="https://drive.google.com/file/d/1Lc32q-0J-x3oOyNaaTr-8-Zlw1mazOWb/preview"
     frameBorder="0"
     scrolling="auto"
     height="350"
